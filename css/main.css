@@ -1,0 +1,35 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+section {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+canvas {
+  background-color: red;
+  grid-column: 1;
+  grid-row: 1;
+}
+div {
+  width: 600px;
+  height: 600px;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  grid-auto-flow: column;
+  background-color: aquamarine;
+  margin: auto;
+}
+
+img {
+  width: 100%;
+}
