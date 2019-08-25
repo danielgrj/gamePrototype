@@ -5,7 +5,6 @@ const canvas = document.querySelector('canvas');
 canvas.width = 720;
 canvas.height = 600;
 const context = canvas.getContext('2d');
-const battlingUnits = [];
 let animationId;
 let gameState = true;
 
@@ -14,12 +13,10 @@ const knight = new Knight(
   5,
   10,
   10,
-  './../Assets/SpriteSheets/Knight1.png',
   context,
-  { x: 300, y: 300 },
   {
-    positionX: 0,
-    positionY: 0
+    x: 0,
+    y: 0
   },
   'blue'
 );
@@ -28,12 +25,10 @@ const knight2 = new Knight(
   5,
   10,
   10,
-  './../Assets/SpriteSheets/Knight1.png',
   context,
-  { x: 0, y: 0 },
   {
-    positionX: 300,
-    positionY: 300
+    x: 300,
+    y: 300
   },
   'red'
 );
@@ -56,8 +51,6 @@ function drawBattle() {
   context.fillRect(0, 150, canvas.width, 300);
 }
 
-function areBattling() {}
-
 function gameLoop(spriteCall) {
   if (gameState) {
     animationId = undefined;
@@ -67,7 +60,6 @@ function gameLoop(spriteCall) {
       gameObject.currentAnimation.render();
     });
     context.save();
-    console.log('it happend again');
   } else {
     animationId = undefined;
     drawBattle();

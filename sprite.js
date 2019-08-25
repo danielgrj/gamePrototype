@@ -1,20 +1,9 @@
 export default class Sprite {
-  constructor({
-    context,
-    width,
-    height,
-    imagePath,
-    positionX,
-    positionY,
-    ticksPerFrame = 0,
-    numberOfFrames,
-    scale = 1
-  }) {
+  constructor({ context, width, height, imagePath, position, ticksPerFrame = 0, numberOfFrames, scale = 1 }) {
     this.context = context;
     this.width = width;
     this.height = height;
-    this.positionX = positionX;
-    this.positionY = positionY;
+    this.position = position;
     this.image = new Image();
     this.image.src = imagePath;
     this.frameIndex = 0;
@@ -22,19 +11,19 @@ export default class Sprite {
     this.ticksPerFrame = ticksPerFrame;
     this.numberOfFrames = numberOfFrames;
     this.scale = scale;
-    this.goal = { x: positionX, y: positionY };
+    this.goal = { x: position.x, y: position.y };
   }
 
   render() {
-    this.context.clearRect(this.positionX - 1, this.positionY - 1, this.width + 1, this.height + 1);
+    this.context.clearRect(this.position.x - 1, this.position.y - 1, this.width + 1, this.height + 1);
     this.context.drawImage(
       this.image,
       this.width * this.frameIndex,
       0,
       this.width,
       this.height,
-      this.positionX,
-      this.positionY,
+      this.position.x,
+      this.position.y,
       Math.floor(this.width * this.scale),
       Math.floor(this.height * this.scale)
     );
@@ -53,10 +42,10 @@ export default class Sprite {
   }
 
   move() {
-    if (this.positionX < this.goal.x) {
-      this.positionX++;
-    } else if (this.positionY < this.goal.y) {
-      this.positionY++;
+    if (this.position.x < this.goal.x) {
+      this.position.x++;
+    } else if (this.position.y < this.goal.y) {
+      this.position.y++;
     }
     return true;
   }
