@@ -47,7 +47,6 @@ export default class Character {
   }
 
   setBattleAnimation() {
-    this.sprites.attack.changeScale(0.45);
     this.sprites.attack.position = { x: 100, y: 250 };
   }
 

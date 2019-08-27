@@ -1,4 +1,5 @@
 import { KnightOne, KnightTwo, KnightThree } from './knight.js';
+import { GreenTroll, GrayTroll, RedTroll } from './troll.js';
 import { highlightPath, drawMap, highlightCombat, getTileCoordinates } from './map.js';
 
 const button = document.querySelector('button');
@@ -54,10 +55,50 @@ const knight3 = new KnightThree(
   },
   'red'
 );
+const grenTroll = new GreenTroll(
+  10,
+  5,
+  10,
+  10,
+  context,
+  {
+    x: 480,
+    y: 120
+  },
+  'red'
+);
+const grayTroll = new GrayTroll(
+  10,
+  5,
+  10,
+  10,
+  context,
+  {
+    x: 480,
+    y: 360
+  },
+  'red'
+);
+const redTroll = new RedTroll(
+  10,
+  5,
+  10,
+  10,
+  context,
+  {
+    x: 600,
+    y: 240
+  },
+  'red'
+);
+
 const arrayGameObjects = [];
 arrayGameObjects.push(knight);
 arrayGameObjects.push(knight2);
 arrayGameObjects.push(knight3);
+arrayGameObjects.push(grenTroll);
+arrayGameObjects.push(grayTroll);
+arrayGameObjects.push(redTroll);
 
 function ellipse(context, cx, cy, rx, ry) {
   context.fillStyle = '#404040';
@@ -126,48 +167,53 @@ function stop() {
 }
 
 const controlUnits = e => {
-  if (attacker) {
-    if (e.target.className.includes('highlight')) {
-      attacker.currentAnimation.setGoal(getTileCoordinates(e.target));
-    } else if (e.target.className.includes('combat-ready')) {
-      gameState = false;
-      arrayGameObjects.forEach(object => {
-        if (
-          object.getCharacterCoordinates().x === getTileCoordinates(e.target).x &&
-          object.getCharacterCoordinates().y === getTileCoordinates(e.target).y
-        )
-          defender = object;
-      });
-      setTimeout(() => {
-        gameState = true;
-        attacker = undefined;
-      }, 3500);
+  if (gameState) {
+    if (attacker) {
+      if (e.target.className.includes('highlight')) {
+        attacker.currentAnimation.setGoal(getTileCoordinates(e.target));
+      } else if (e.target.className.includes('combat-ready')) {
+        gameState = false;
+        arrayGameObjects.forEach(object => {
+          if (
+            object.getCharacterCoordinates().x === getTileCoordinates(e.target).x &&
+            object.getCharacterCoordinates().y === getTileCoordinates(e.target).y
+          )
+            defender = object;
+        });
+        setTimeout(() => {
+          gameState = true;
+          attacker = undefined;
+        }, 3500);
+        [...document.querySelectorAll('[tile]')].forEach(tile => {
+          tile.className = '';
+        });
+        return;
+      }
       [...document.querySelectorAll('[tile]')].forEach(tile => {
         tile.className = '';
       });
-      return;
+      attacker = undefined;
+    } else {
+      arrayGameObjects.forEach(object => {
+        if (
+          object.getCharacterCoordinates().x === getTileCoordinates(e.target).x &&
+          object.getCharacterCoordinates().y === getTileCoordinates(e.target).y &&
+          gameState
+        ) {
+          attacker = object;
+          e.target.className = 'select';
+          highlightPath(object.getCharacterCoordinates(), object.movementAbility);
+          arrayGameObjects.forEach(enemie => {
+            if (enemie !== object) {
+              highlightCombat(enemie.getCharacterCoordinates());
+            }
+          });
+        }
+      });
     }
-    [...document.querySelectorAll('[tile]')].forEach(tile => {
-      tile.className = '';
-    });
-    attacker = undefined;
   } else {
-    arrayGameObjects.forEach(object => {
-      if (
-        object.getCharacterCoordinates().x === getTileCoordinates(e.target).x &&
-        object.getCharacterCoordinates().y === getTileCoordinates(e.target).y &&
-        gameState
-      ) {
-        attacker = object;
-        e.target.className = 'select';
-        highlightPath(object.getCharacterCoordinates(), object.movementAbility);
-        arrayGameObjects.forEach(enemie => {
-          if (enemie !== object) {
-            highlightCombat(enemie.getCharacterCoordinates());
-          }
-        });
-      }
-    });
+    gameState = true;
+    attacker = undefined;
   }
 };
 

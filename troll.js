@@ -1,6 +1,6 @@
 import Character from './character.js';
 
-class KnightOne extends Character {
+class GreenTroll extends Character {
   constructor(name, health, attack, defense, context, position) {
     super(
       name,
@@ -10,9 +10,9 @@ class KnightOne extends Character {
       {
         idle: {
           context,
-          width: 456,
+          width: 461,
           height: 320,
-          imagePath: './assets/Character/Knight/1/idle.png',
+          imagePath: './assets/Character/Troll/1/idle.png',
           position,
           numberOfFrames: 6,
           loop: true,
@@ -21,9 +21,9 @@ class KnightOne extends Character {
         },
         walk: {
           context,
-          width: 456,
+          width: 470,
           height: 320,
-          imagePath: './assets/Character/Knight/1/walk.png',
+          imagePath: './assets/Character/Troll/1/walk.png',
           position,
           numberOfFrames: 6,
           loop: true,
@@ -32,20 +32,20 @@ class KnightOne extends Character {
         },
         attack: {
           context,
-          width: 474,
+          width: 368,
           height: 320,
-          imagePath: './assets/Character/Knight/1/attack.png',
+          imagePath: './assets/Character/Troll/1/attack.png',
           position,
-          numberOfFrames: 7,
+          numberOfFrames: 6,
           loop: true,
           ticksPerFrame: 4,
-          scale: 0.45
+          scale: 0.7
         },
         hurt: {
           context,
-          width: 449,
+          width: 402,
           height: 320,
-          imagePath: './assets/Character/Knight/1/hurt.png',
+          imagePath: './assets/Character/Troll/1/hurt.png',
           position,
           numberOfFrames: 6,
           loop: true,
@@ -54,9 +54,9 @@ class KnightOne extends Character {
         },
         dead: {
           context,
-          width: 430,
+          width: 569,
           height: 320,
-          imagePath: './assets/Character/Knight/1/die.png',
+          imagePath: './assets/Character/Troll/1/die.png',
           position,
           numberOfFrames: 6,
           loop: true,
@@ -64,13 +64,13 @@ class KnightOne extends Character {
           scale: 0.3
         }
       },
-      'knights',
+      'Trolls',
       { x: 2, y: 2 }
     );
   }
 }
 
-class KnightTwo extends Character {
+class GrayTroll extends Character {
   constructor(name, health, attack, defense, context, position) {
     super(
       name,
@@ -80,9 +80,9 @@ class KnightTwo extends Character {
       {
         idle: {
           context,
-          width: 333,
+          width: 445,
           height: 320,
-          imagePath: './assets/Character/Knight/2/idle.png',
+          imagePath: './assets/Character/Troll/2/idle.png',
           position,
           numberOfFrames: 6,
           loop: true,
@@ -91,9 +91,9 @@ class KnightTwo extends Character {
         },
         walk: {
           context,
-          width: 348,
+          width: 450,
           height: 320,
-          imagePath: './assets/Character/Knight/2/walk.png',
+          imagePath: './assets/Character/Troll/2/walk.png',
           position,
           numberOfFrames: 6,
           loop: true,
@@ -102,20 +102,20 @@ class KnightTwo extends Character {
         },
         attack: {
           context,
-          width: 320,
-          height: 331,
-          imagePath: './assets/Character/Knight/2/attack.png',
+          width: 369,
+          height: 320,
+          imagePath: './assets/Character/Troll/2/attack.png',
           position,
           numberOfFrames: 6,
           loop: true,
           ticksPerFrame: 4,
-          scale: 0.45
+          scale: 0.7
         },
         hurt: {
           context,
-          width: 345,
+          width: 388,
           height: 320,
-          imagePath: './assets/Character/Knight/2/hurt.png',
+          imagePath: './assets/Character/Troll/2/hurt.png',
           position,
           numberOfFrames: 6,
           loop: true,
@@ -124,9 +124,9 @@ class KnightTwo extends Character {
         },
         dead: {
           context,
-          width: 389,
-          height: 320,
-          imagePath: './assets/Character/Knight/2/die.png',
+          width: 596,
+          height: 292,
+          imagePath: './assets/Character/Troll/2/die.png',
           position,
           numberOfFrames: 6,
           loop: true,
@@ -134,13 +134,13 @@ class KnightTwo extends Character {
           scale: 0.3
         }
       },
-      'knightsGolden',
+      'trolls',
       { x: 2, y: 2 }
     );
   }
 }
 
-class KnightThree extends Character {
+class RedTroll extends Character {
   constructor(name, health, attack, defense, context, position) {
     super(
       name,
@@ -150,9 +150,9 @@ class KnightThree extends Character {
       {
         idle: {
           context,
-          width: 348,
+          width: 421,
           height: 320,
-          imagePath: './assets/Character/Knight/3/idle.png',
+          imagePath: './assets/Character/Troll/3/idle.png',
           position,
           numberOfFrames: 6,
           loop: true,
@@ -161,9 +161,9 @@ class KnightThree extends Character {
         },
         walk: {
           context,
-          width: 371,
+          width: 436,
           height: 320,
-          imagePath: './assets/Character/Knight/3/walk.png',
+          imagePath: './assets/Character/Troll/3/walk.png',
           position,
           numberOfFrames: 6,
           loop: true,
@@ -172,31 +172,31 @@ class KnightThree extends Character {
         },
         attack: {
           context,
-          width: 367,
+          width: 380,
           height: 331,
-          imagePath: './assets/Character/Knight/3/attack.png',
+          imagePath: './assets/Character/Troll/3/attack.png',
           position,
           numberOfFrames: 6,
           loop: true,
           ticksPerFrame: 4,
-          scale: 0.45
+          scale: 0.7
         },
         hurt: {
           context,
-          width: 367,
+          width: 375,
           height: 320,
-          imagePath: './assets/Character/Knight/3/hurt.png',
+          imagePath: './assets/Character/Troll/3/hurt.png',
           position,
           numberOfFrames: 6,
           loop: true,
           ticksPerFrame: 4,
-          scale: 0.5
+          scale: 0.55
         },
         dead: {
           context,
-          width: 381,
+          width: 596,
           height: 320,
-          imagePath: './assets/Character/Knight/3/die.png',
+          imagePath: './assets/Character/Troll/3/die.png',
           position,
           numberOfFrames: 6,
           loop: true,
@@ -204,10 +204,10 @@ class KnightThree extends Character {
           scale: 0.3
         }
       },
-      'knightsGolden',
+      'trolls',
       { x: 2, y: 2 }
     );
   }
 }
 
-export { KnightOne, KnightTwo, KnightThree };
+export { GreenTroll, GrayTroll, RedTroll };
