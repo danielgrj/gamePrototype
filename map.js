@@ -1,11 +1,11 @@
 export function highlightPath(position, maxMovement) {
   const highlightTiles = [];
   console.log(position);
-  let positionX = 2;
-  let positionY = 1;
-  let maxY = maxMovement.y;
+  let positionX = position.y;
+  let positionY = position.x;
+  let maxY = maxMovement.x;
 
-  for (let i = 0; i <= maxMovement.x; i++) {
+  for (let i = 0; i <= maxMovement.y; i++) {
     for (let j = 0; j <= maxY; j++) {
       highlightTiles.push(`${positionX + i},${positionY + j}`);
       highlightTiles.push(`${positionX - i},${positionY - j}`);

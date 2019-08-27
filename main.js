@@ -164,7 +164,8 @@ board.onclick = e => {
       highlightPath(object.getCharacterCoordinates(), object.movementAbility).forEach(coordinate => {
         if (
           document.querySelector(`[tile="${coordinate}"]`) !== null &&
-          coordinate !== `${object.getCharacterCoordinates().x},${object.getCharacterCoordinates().y}`
+          !document.querySelector(`[tile="${coordinate}"]`).className.includes('select')
+          // coordinate !== `${object.getCharacterCoordinates().x},${object.getCharacterCoordinates().y}`
         ) {
           document.querySelector(`[tile="${coordinate}"]`).className = 'highlight';
         }
