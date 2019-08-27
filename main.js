@@ -1,6 +1,6 @@
 import { KnightOne, KnightTwo } from './knight.js';
 import getTileCoordinates from './utils.js';
-import { highlightPath, drawMap } from './map.js';
+import { highlightPath, drawMap, highlightCombat } from './map.js';
 
 const bodyHeight = document.body.offsetHeight;
 const bodyWidth = document.body.offsetWidth;
@@ -19,10 +19,8 @@ menuMusic.loop = true;
 const context = canvas.getContext('2d');
 let animationId;
 let gameState = true;
-let currentTile;
 let attacker;
 let defender;
-let tiemId;
 
 const knight = new KnightOne(
   10,
@@ -48,10 +46,22 @@ const knight2 = new KnightTwo(
   },
   'red'
 );
-
+const knight3 = new KnightOne(
+  10,
+  5,
+  10,
+  10,
+  context,
+  {
+    x: 480,
+    y: 240
+  },
+  'red'
+);
 const arrayGameObjects = [];
 arrayGameObjects.push(knight);
 arrayGameObjects.push(knight2);
+arrayGameObjects.push(knight3);
 
 function ellipse(context, cx, cy, rx, ry) {
   context.fillStyle = '#404040';
@@ -79,7 +89,6 @@ function drawBattle() {
 }
 
 function gameLoop(spriteCall) {
-  console.log(gameState);
   if (
     !gameState &&
     attacker.getCharacterCoordinates().x === attacker.getGoalCoordinates().x &&
@@ -115,11 +124,6 @@ function stop() {
   }
 }
 
-//function randomTime(min, max) {
-//  return Math.round(Math.random() * (max - min) + min)
-//}
-//Add an option to change the size of the screen // canvas
-
 const board = document.querySelector('main');
 
 // board.onmouseover = e => {
@@ -133,56 +137,50 @@ const board = document.querySelector('main');
 // };
 
 board.onclick = e => {
-  arrayGameObjects.forEach(object => {
-    if (object.isSelected) {
-      if ([...document.querySelectorAll('.highlight')].includes(e.target)) {
-        object.currentAnimation.setGoal(getTileCoordinates(e.target));
-
+  console.log(attacker);
+  if (attacker) {
+    if (e.target.className.includes('highlight')) {
+      attacker.currentAnimation.setGoal(getTileCoordinates(e.target));
+      attacker = undefined;
+    } else if (e.target.className.includes('combat-ready')) {
+      gameState = false;
+      setTimeout(() => {
+        gameState = true;
+        attacker = undefined;
+      }, 3500);
+    }
+    [...document.querySelectorAll('[tile]')].forEach(tile => {
+      tile.className = '';
+    });
+  } else {
+    arrayGameObjects.forEach(object => {
+      if (
+        object.getCharacterCoordinates().x === getTileCoordinates(e.target).x &&
+        object.getCharacterCoordinates().y === getTileCoordinates(e.target).y &&
+        gameState
+      ) {
+        attacker = object;
+        e.target.className = 'select';
+        highlightPath(object.getCharacterCoordinates(), object.movementAbility);
         arrayGameObjects.forEach(enemie => {
-          if (enemie !== object && enemie.team !== object.team) {
-            attacker = object;
-            defender = enemie;
-            gameState = false;
-            setTimeout(() => {
-              gameState = true;
-            }, 3500);
+          if (enemie !== object) {
+            highlightCombat(enemie.getCharacterCoordinates());
           }
         });
       }
-      object.isSelected = false;
-      [...document.querySelectorAll('[tile]')].forEach(tile => {
-        tile.className = '';
-      });
-    } else if (
-      object.getCharacterCoordinates().x === getTileCoordinates(e.target).x &&
-      object.getCharacterCoordinates().y === getTileCoordinates(e.target).y
-    ) {
-      object.isSelected = true;
-      currentTile = e.target;
-      currentTile.className = 'select';
-
-      highlightPath(object.getCharacterCoordinates(), object.movementAbility).forEach(coordinate => {
-        if (
-          document.querySelector(`[tile="${coordinate}"]`) !== null &&
-          !document.querySelector(`[tile="${coordinate}"]`).className.includes('select')
-          // coordinate !== `${object.getCharacterCoordinates().x},${object.getCharacterCoordinates().y}`
-        ) {
-          document.querySelector(`[tile="${coordinate}"]`).className = 'highlight';
-        }
-      });
-    }
-  });
+    });
+  }
 };
 
 button.onclick = () => {
   homeScreen.style.display = 'none';
   gameScreen.style.display = '';
-  menuMusic.pause();
-  menuMusic.src = 'http://23.237.126.42/ost/fire-emblem-heroes/gzjxtkxi/26%20Battle%20Player.mp3';
-  menuMusic.play();
+  // menuMusic.pause();
+  // menuMusic.src = 'http://23.237.126.42/ost/fire-emblem-heroes/gzjxtkxi/26%20Battle%20Player.mp3';
+  // menuMusic.play();
   start();
 };
 
-document.body.onload = () => {
-  menuMusic.play();
-};
+// document.body.onload = () => {
+//   menuMusic.play();
+// };

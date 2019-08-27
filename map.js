@@ -1,21 +1,37 @@
-export function highlightPath(position, maxMovement) {
+export function highlightPath({ x, y }, maxMovement) {
   const highlightTiles = [];
-  console.log(position);
-  let positionX = position.y;
-  let positionY = position.x;
   let maxY = maxMovement.x;
 
   for (let i = 0; i <= maxMovement.y; i++) {
     for (let j = 0; j <= maxY; j++) {
-      highlightTiles.push(`${positionX + i},${positionY + j}`);
-      highlightTiles.push(`${positionX - i},${positionY - j}`);
-      highlightTiles.push(`${positionX + i},${positionY - j}`);
-      highlightTiles.push(`${positionX - i},${positionY + j}`);
+      highlightTiles.push(`${y + i},${x + j}`);
+      highlightTiles.push(`${y - i},${x - j}`);
+      highlightTiles.push(`${y + i},${x - j}`);
+      highlightTiles.push(`${y - i},${x + j}`);
     }
     maxY--;
   }
 
-  return highlightTiles;
+  highlightTiles.forEach(coordinate => {
+    if (
+      document.querySelector(`[tile="${coordinate}"]`) !== null &&
+      !document.querySelector(`[tile="${coordinate}"]`).className.includes('select')
+    ) {
+      document.querySelector(`[tile="${coordinate}"]`).className = 'highlight';
+    }
+  });
+}
+
+export function highlightCombat({ x, y }) {
+  if (
+    document.querySelector(`[tile="${y - 1},${x}"]`).className.includes('highlight') ||
+    document.querySelector(`[tile="${y + 1},${x}"]`).className.includes('highlight') ||
+    document.querySelector(`[tile="${y},${x + 1}"]`).className.includes('highlight') ||
+    document.querySelector(`[tile="${y},${x - 1}"]`).className.includes('highlight') ||
+    document.querySelector(`[tile="${y},${x}"]`).className.includes('highlight')
+  ) {
+    document.querySelector(`[tile="${y},${x}"]`).className = 'combat-ready';
+  }
 }
 
 export function drawMap(context) {
