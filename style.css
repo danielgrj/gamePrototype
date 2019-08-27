@@ -1,43 +1,67 @@
+@import url('https://fonts.googleapis.com/css?family=Cormorant:700&display=swap');
+
 body {
   margin: 0;
   display: 0;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-section {
+#homeScreen {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(to right bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url('./assets/ui/background.png');
+}
+
+#homeScreen > h1 {
+  color: #fff;
+  font-family: 'Cormorant', serif;
+  font-size: 96px;
+}
+
+#homeScreen > button {
+  font-size: 22px;
+  background-color: #3b3034;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  padding: 25px 35px;
+}
+
+#game {
   position: relative;
   height: 100vh;
   width: 100vw;
   margin: auto;
+  background-color: #222;
 }
 
 canvas {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 18%;
+  left: 30%;
   transition: all 1s;
   z-index: 1;
 }
 
 main {
   position: absolute;
-  top: 0;
-  left: 0;
+
+  top: 18%;
+  left: 30%;
   width: 720px;
   height: 600px;
   display: grid;
   grid-template-columns: repeat(6, 120px);
   grid-template-rows: repeat(5, 120px);
-  background-color: orange;
   position: absolute;
 }
 
 div {
   z-index: 2;
-  border: 2px solid #000;
 }
 
 div[tile='0,0'] {
@@ -91,9 +115,14 @@ div[tile='4,0'] {
 }
 
 .hover {
-  background-color: rgba(172, 22, 38, 0.2);
+  background-color: rgba(115, 194, 251, 0.5);
+}
+
+.highlight {
+  background-color: rgba(115, 194, 251, 0.5);
+  border: 1px solid rgba(115, 194, 251, 0.7);
 }
 
 .select {
-  background-color: rgba(172, 22, 38, 0.5);
+  background-color: rgba(0, 128, 255, 0.6);
 }

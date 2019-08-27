@@ -12,21 +12,35 @@ export default class Sprite {
     this.numberOfFrames = numberOfFrames;
     this.scale = scale;
     this.goal = { x: position.x, y: position.y };
+    this.isFreeze = false;
   }
 
   render() {
-    this.context.clearRect(this.position.x - 1, this.position.y - 1, this.width + 1, this.height + 1);
-    this.context.drawImage(
-      this.image,
-      this.width * this.frameIndex,
-      0,
-      this.width,
-      this.height,
-      this.position.x,
-      this.position.y,
-      Math.floor(this.width * this.scale),
-      Math.floor(this.height * this.scale)
-    );
+    if (!this.isFreeze) {
+      this.context.drawImage(
+        this.image,
+        this.width * this.frameIndex,
+        0,
+        this.width,
+        this.height,
+        this.position.x,
+        this.position.y,
+        Math.floor(this.width * this.scale),
+        Math.floor(this.height * this.scale)
+      );
+    } else {
+      this.context.drawImage(
+        this.image,
+        0,
+        0,
+        this.width,
+        this.height,
+        this.position.x,
+        this.position.y,
+        Math.floor(this.width * this.scale),
+        Math.floor(this.height * this.scale)
+      );
+    }
   }
 
   update() {
@@ -41,17 +55,26 @@ export default class Sprite {
     }
   }
 
+  freeze() {
+    this.isFreeze = true;
+  }
+
   move() {
-    if (this.position.x < this.goal.x) {
-      this.position.x++;
-    } else if (this.position.y < this.goal.y) {
-      this.position.y++;
+    if (this.position.x !== this.goal.x) {
+      if (this.position.x < this.goal.x) return (this.position.x += 2);
+      return (this.position.x -= 2);
+    } else if (this.position.y !== this.goal.y) {
+      if (this.position.y < this.goal.y) return (this.position.y += 2);
+      return (this.position.y -= 2);
     }
-    return true;
   }
 
   setGoal(coordinates) {
     this.goal.x = coordinates.x * 120;
     this.goal.y = coordinates.y * 120;
+  }
+
+  changeScale(scale) {
+    this.scale = scale;
   }
 }
