@@ -129,4 +129,5 @@ div[tile='4,0'] {
 
 .combat-ready {
   background-color: rgba(255, 36, 0, 0.6);
+  border: 1px solid rgba(255, 36, 0, 0.8);
 }

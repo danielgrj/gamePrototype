@@ -50,7 +50,7 @@ class KnightOne extends Character {
           numberOfFrames: 6,
           loop: true,
           ticksPerFrame: 4,
-          scale: 0.3
+          scale: 0.45
         },
         dead: {
           context,
@@ -87,7 +87,7 @@ class KnightTwo extends Character {
           numberOfFrames: 6,
           loop: true,
           ticksPerFrame: 4,
-          scale: 0.3
+          scale: 0.35
         },
         walk: {
           context,
@@ -98,7 +98,7 @@ class KnightTwo extends Character {
           numberOfFrames: 6,
           loop: true,
           ticksPerFrame: 4,
-          scale: 0.3
+          scale: 0.35
         },
         attack: {
           context,
@@ -113,14 +113,14 @@ class KnightTwo extends Character {
         },
         hurt: {
           context,
-          width: 340,
+          width: 345,
           height: 320,
           imagePath: './assets/Character/Knight/2/hurt.png',
           position,
           numberOfFrames: 6,
           loop: true,
           ticksPerFrame: 4,
-          scale: 0.3
+          scale: 0.55
         },
         dead: {
           context,
@@ -140,4 +140,74 @@ class KnightTwo extends Character {
   }
 }
 
-export { KnightOne, KnightTwo };
+class KnightThree extends Character {
+  constructor(name, health, attack, defense, context, position) {
+    super(
+      name,
+      health,
+      attack,
+      defense,
+      {
+        idle: {
+          context,
+          width: 348,
+          height: 320,
+          imagePath: './assets/Character/Knight/3/idle.png',
+          position,
+          numberOfFrames: 6,
+          loop: true,
+          ticksPerFrame: 4,
+          scale: 0.35
+        },
+        walk: {
+          context,
+          width: 371,
+          height: 320,
+          imagePath: './assets/Character/Knight/3/walk.png',
+          position,
+          numberOfFrames: 6,
+          loop: true,
+          ticksPerFrame: 4,
+          scale: 0.35
+        },
+        attack: {
+          context,
+          width: 367,
+          height: 331,
+          imagePath: './assets/Character/Knight/3/attack.png',
+          position,
+          numberOfFrames: 6,
+          loop: true,
+          ticksPerFrame: 4,
+          scale: 0.3
+        },
+        hurt: {
+          context,
+          width: 367,
+          height: 320,
+          imagePath: './assets/Character/Knight/3/hurt.png',
+          position,
+          numberOfFrames: 6,
+          loop: true,
+          ticksPerFrame: 4,
+          scale: 0.5
+        },
+        dead: {
+          context,
+          width: 381,
+          height: 320,
+          imagePath: './assets/Character/Knight/3/die.png',
+          position,
+          numberOfFrames: 6,
+          loop: true,
+          ticksPerFrame: 6,
+          scale: 0.3
+        }
+      },
+      'knightsGolden',
+      { x: 2, y: 2 }
+    );
+  }
+}
+
+export { KnightOne, KnightTwo, KnightThree };

@@ -32,13 +32,6 @@ export default class Character {
     };
   }
 
-  getMovementAbility() {
-    return {
-      x: Math.floor(this.currentAnimation.position.x / 120) + this.movementAbility.x,
-      y: Math.floor(this.currentAnimation.position.y / 120) + this.movementAbility.y
-    };
-  }
-
   setWalkAnimation() {
     if (
       this.getCharacterCoordinates().x !== this.getGoalCoordinates().x ||
@@ -53,9 +46,12 @@ export default class Character {
     return (this.currentAnimation = this.sprites.idle);
   }
 
-  setBattleAnimation(role) {
+  setBattleAnimation() {
     this.sprites.attack.changeScale(0.45);
-    this.sprites.attack.position = { x: 150, y: 250 };
-    this.sprites.attack.goal = { x: 100, y: 400 };
+    this.sprites.attack.position = { x: 100, y: 250 };
+  }
+
+  setHurtAnimation() {
+    this.sprites.hurt.position = { x: 420, y: 250 };
   }
 }

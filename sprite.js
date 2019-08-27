@@ -16,31 +16,34 @@ export default class Sprite {
   }
 
   render() {
-    if (!this.isFreeze) {
-      this.context.drawImage(
-        this.image,
-        this.width * this.frameIndex,
-        0,
-        this.width,
-        this.height,
-        this.position.x,
-        this.position.y,
-        Math.floor(this.width * this.scale),
-        Math.floor(this.height * this.scale)
-      );
-    } else {
-      this.context.drawImage(
-        this.image,
-        0,
-        0,
-        this.width,
-        this.height,
-        this.position.x,
-        this.position.y,
-        Math.floor(this.width * this.scale),
-        Math.floor(this.height * this.scale)
-      );
-    }
+    this.context.drawImage(
+      this.image,
+      this.width * this.frameIndex,
+      0,
+      this.width,
+      this.height,
+      this.position.x,
+      this.position.y,
+      Math.floor(this.width * this.scale),
+      Math.floor(this.height * this.scale)
+    );
+  }
+
+  renderReverse() {
+    this.context.save();
+    this.context.scale(-1, 1);
+    this.context.drawImage(
+      this.image,
+      this.width * this.frameIndex,
+      0,
+      this.width,
+      this.height,
+      this.position.x,
+      this.position.y,
+      Math.floor(this.width * this.scale),
+      Math.floor(this.height * this.scale)
+    );
+    this.context.restore();
   }
 
   update() {
@@ -53,10 +56,6 @@ export default class Sprite {
         this.frameIndex = 0;
       }
     }
-  }
-
-  freeze() {
-    this.isFreeze = true;
   }
 
   move() {

@@ -1,21 +1,18 @@
-import { KnightOne, KnightTwo } from './knight.js';
+import { KnightOne, KnightTwo, KnightThree } from './knight.js';
 import { highlightPath, drawMap, highlightCombat, getTileCoordinates } from './map.js';
-
-const bodyHeight = document.body.offsetHeight;
-const bodyWidth = document.body.offsetWidth;
 
 const button = document.querySelector('button');
 const canvas = document.querySelector('canvas');
 const gameScreen = document.querySelector('#game');
 const homeScreen = document.querySelector('#homeScreen');
-canvas.style.top = (bodyHeight - canvas.height) / 2;
-canvas.style.left = (bodyWidth - canvas.width) / 2;
+const board = document.querySelector('main');
+
+const context = canvas.getContext('2d');
 
 const menuMusic = new Audio();
 menuMusic.src = 'http://23.237.126.42/ost/fire-emblem-heroes/wkcvvcla/04%20Menu%20Normal.mp3';
 menuMusic.loop = true;
 
-const context = canvas.getContext('2d');
 let animationId;
 let gameState = true;
 let attacker;
@@ -45,7 +42,7 @@ const knight2 = new KnightTwo(
   },
   'red'
 );
-const knight3 = new KnightOne(
+const knight3 = new KnightThree(
   10,
   5,
   10,
@@ -76,15 +73,20 @@ function ellipse(context, cx, cy, rx, ry) {
 }
 
 function drawBattle() {
-  let backgroundImage = new Image();
+  console.log(defender);
+  const backgroundImage = new Image();
   backgroundImage.src = './assets/maps/desertBattle.png';
   backgroundImage.onload = () => {
     context.drawImage(backgroundImage, 0, 0, 1920, 1080, 0, 150, canvas.width, 300);
   };
-  ellipse(context, 212, 395, 50, 10);
+  ellipse(context, 162, 395, 50, 10);
   attacker.setBattleAnimation();
   attacker.sprites.attack.update();
   attacker.sprites.attack.render();
+  ellipse(context, 552, 395, 50, 10);
+  defender.setHurtAnimation();
+  defender.sprites.hurt.update();
+  defender.sprites.hurt.render();
 }
 
 function gameLoop(spriteCall) {
@@ -123,34 +125,32 @@ function stop() {
   }
 }
 
-const board = document.querySelector('main');
-
-// board.onmouseover = e => {
-//   if (e.target.className.includes('select')) return;
-//   e.target.className = 'hover';
-// };
-
-// board.onmouseout = e => {
-//   if (e.target.className.includes('select')) return;
-//   e.target.className = '';
-// };
-
-board.onclick = e => {
-  console.log(attacker);
+const controlUnits = e => {
   if (attacker) {
     if (e.target.className.includes('highlight')) {
       attacker.currentAnimation.setGoal(getTileCoordinates(e.target));
-      attacker = undefined;
     } else if (e.target.className.includes('combat-ready')) {
       gameState = false;
+      arrayGameObjects.forEach(object => {
+        if (
+          object.getCharacterCoordinates().x === getTileCoordinates(e.target).x &&
+          object.getCharacterCoordinates().y === getTileCoordinates(e.target).y
+        )
+          defender = object;
+      });
       setTimeout(() => {
         gameState = true;
         attacker = undefined;
       }, 3500);
+      [...document.querySelectorAll('[tile]')].forEach(tile => {
+        tile.className = '';
+      });
+      return;
     }
     [...document.querySelectorAll('[tile]')].forEach(tile => {
       tile.className = '';
     });
+    attacker = undefined;
   } else {
     arrayGameObjects.forEach(object => {
       if (
@@ -171,6 +171,8 @@ board.onclick = e => {
   }
 };
 
+board.onclick = controlUnits;
+
 button.onclick = () => {
   homeScreen.style.display = 'none';
   gameScreen.style.display = '';
@@ -182,4 +184,14 @@ button.onclick = () => {
 
 // document.body.onload = () => {
 //   menuMusic.play();
+// };
+
+// board.onmouseover = e => {
+//   if (e.target.className.includes('select')) return;
+//   e.target.className = 'hover';
+// };
+
+// board.onmouseout = e => {
+//   if (e.target.className.includes('select')) return;
+//   e.target.className = '';
 // };
