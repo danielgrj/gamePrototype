@@ -1,6 +1,5 @@
 import { KnightOne, KnightTwo } from './knight.js';
-import getTileCoordinates from './utils.js';
-import { highlightPath, drawMap, highlightCombat } from './map.js';
+import { highlightPath, drawMap, highlightCombat, getTileCoordinates } from './map.js';
 
 const bodyHeight = document.body.offsetHeight;
 const bodyWidth = document.body.offsetWidth;

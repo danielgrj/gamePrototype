@@ -1,40 +1,4 @@
-export function highlightPath({ x, y }, maxMovement) {
-  const highlightTiles = [];
-  let maxY = maxMovement.x;
-
-  for (let i = 0; i <= maxMovement.y; i++) {
-    for (let j = 0; j <= maxY; j++) {
-      highlightTiles.push(`${y + i},${x + j}`);
-      highlightTiles.push(`${y - i},${x - j}`);
-      highlightTiles.push(`${y + i},${x - j}`);
-      highlightTiles.push(`${y - i},${x + j}`);
-    }
-    maxY--;
-  }
-
-  highlightTiles.forEach(coordinate => {
-    if (
-      document.querySelector(`[tile="${coordinate}"]`) !== null &&
-      !document.querySelector(`[tile="${coordinate}"]`).className.includes('select')
-    ) {
-      document.querySelector(`[tile="${coordinate}"]`).className = 'highlight';
-    }
-  });
-}
-
-export function highlightCombat({ x, y }) {
-  if (
-    document.querySelector(`[tile="${y - 1},${x}"]`).className.includes('highlight') ||
-    document.querySelector(`[tile="${y + 1},${x}"]`).className.includes('highlight') ||
-    document.querySelector(`[tile="${y},${x + 1}"]`).className.includes('highlight') ||
-    document.querySelector(`[tile="${y},${x - 1}"]`).className.includes('highlight') ||
-    document.querySelector(`[tile="${y},${x}"]`).className.includes('highlight')
-  ) {
-    document.querySelector(`[tile="${y},${x}"]`).className = 'combat-ready';
-  }
-}
-
-export function drawMap(context) {
+function drawMap(context) {
   const mapTileset = new Image();
   mapTileset.src = './assets/maps/desert.png';
 
@@ -61,3 +25,49 @@ export function drawMap(context) {
     context.drawImage(mapTileset, 1280, 0, 256, 256, 600, 480, 120, 120);
   };
 }
+
+function getTileCoordinates(tile) {
+  const coordinates = tile.getAttribute('tile').split(',');
+  return {
+    x: parseInt(coordinates[1]),
+    y: parseInt(coordinates[0])
+  };
+}
+
+function highlightPath({ x, y }, maxMovement) {
+  const highlightTiles = [];
+  let maxY = maxMovement.x;
+
+  for (let i = 0; i <= maxMovement.y; i++) {
+    for (let j = 0; j <= maxY; j++) {
+      highlightTiles.push(`${y + i},${x + j}`);
+      highlightTiles.push(`${y - i},${x - j}`);
+      highlightTiles.push(`${y + i},${x - j}`);
+      highlightTiles.push(`${y - i},${x + j}`);
+    }
+    maxY--;
+  }
+
+  highlightTiles.forEach(coordinate => {
+    if (
+      document.querySelector(`[tile="${coordinate}"]`) !== null &&
+      !document.querySelector(`[tile="${coordinate}"]`).className.includes('select')
+    ) {
+      document.querySelector(`[tile="${coordinate}"]`).className = 'highlight';
+    }
+  });
+}
+
+function highlightCombat({ x, y }) {
+  if (
+    document.querySelector(`[tile="${y - 1},${x}"]`).className.includes('highlight') ||
+    document.querySelector(`[tile="${y + 1},${x}"]`).className.includes('highlight') ||
+    document.querySelector(`[tile="${y},${x + 1}"]`).className.includes('highlight') ||
+    document.querySelector(`[tile="${y},${x - 1}"]`).className.includes('highlight') ||
+    document.querySelector(`[tile="${y},${x}"]`).className.includes('highlight')
+  ) {
+    document.querySelector(`[tile="${y},${x}"]`).className = 'combat-ready';
+  }
+}
+
+export { drawMap, getTileCoordinates, highlightPath, highlightCombat };
