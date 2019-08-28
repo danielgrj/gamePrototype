@@ -1,4 +1,5 @@
 import Character from './character.js';
+import Battalion from './battalion.js';
 
 class KnightOne extends Character {
   constructor(name, health, attack, defense, context, position) {
@@ -210,4 +211,23 @@ class KnightThree extends Character {
   }
 }
 
-export { KnightOne, KnightTwo, KnightThree };
+class Knights extends Battalion {
+  constructor(context) {
+    super([
+      new KnightOne(10, 5, 10, 10, context, {
+        x: 120,
+        y: 120
+      }),
+      new KnightTwo(10, 5, 10, 10, context, {
+        x: 360,
+        y: 240
+      }),
+      new KnightThree(10, 5, 10, 10, context, {
+        x: 480,
+        y: 240
+      })
+    ]);
+  }
+}
+
+export { KnightOne, KnightTwo, KnightThree, Knights };

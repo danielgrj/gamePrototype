@@ -1,72 +1,29 @@
-import { KnightOne, KnightTwo, KnightThree } from './knight.js';
-import { GreenTroll, GrayTroll, RedTroll } from './troll.js';
+import { KnightOne, KnightTwo, KnightThree, Knights } from './knight.js';
+import { GreenTroll, GrayTroll, RedTroll, Trolls } from './troll.js';
 import { highlightPath, drawMap, highlightCombat, getTileCoordinates } from './map.js';
-
 import { playIntro, changeAnimationSelection, clearAnimation, chooseFaction } from './intro.js';
-let playersFactions;
-const selectionScreen = document.querySelector('#selectionScreen>main');
-
-selectionScreen.onmouseover = changeAnimationSelection;
-selectionScreen.onmouseout = clearAnimation;
-selectionScreen.onclick = e => {
-  playersFactions = chooseFaction(e);
-  if (playersFactions) {
-    document.querySelector('#selectionScreen').style.display = 'none';
-    gameScreen.style.display = '';
-    start();
-  }
-};
 
 const button = document.querySelector('button');
 const canvas = document.querySelector('#gameCanvas');
 const gameScreen = document.querySelector('#game');
 const homeScreen = document.querySelector('#homeScreen');
 const board = document.querySelector('#game > main');
+const selectionScreen = document.querySelector('#selectionScreen>main');
 
 const context = canvas.getContext('2d');
 
-const menuMusic = new Audio();
-menuMusic.src = 'http://23.237.126.42/ost/fire-emblem-heroes/wkcvvcla/04%20Menu%20Normal.mp3';
-menuMusic.loop = true;
+// const menuMusic = new Audio();
+// menuMusic.src = 'http://23.237.126.42/ost/fire-emblem-heroes/wkcvvcla/04%20Menu%20Normal.mp3';
+// menuMusic.loop = true;
 
 let animationId;
+let playersFactions;
+let playerOne;
+let playerTwo;
 let gameState = true;
-let playerTurn = 'knights';
+let playerTurn = 'playerTwo';
 let attacker;
 let defender;
-
-const knight = new KnightOne(10, 5, 10, 10, context, {
-  x: 120,
-  y: 120
-});
-const knight2 = new KnightTwo(10, 5, 10, 10, context, {
-  x: 360,
-  y: 240
-});
-const knight3 = new KnightThree(10, 5, 10, 10, context, {
-  x: 480,
-  y: 240
-});
-const grenTroll = new GreenTroll(10, 5, 10, 10, context, {
-  x: 480,
-  y: 120
-});
-const grayTroll = new GrayTroll(10, 5, 10, 10, context, {
-  x: 480,
-  y: 360
-});
-const redTroll = new RedTroll(10, 5, 10, 10, context, {
-  x: 600,
-  y: 240
-});
-
-const arrayGameObjects = [];
-arrayGameObjects.push(knight);
-arrayGameObjects.push(knight2);
-arrayGameObjects.push(knight3);
-arrayGameObjects.push(grenTroll);
-arrayGameObjects.push(grayTroll);
-arrayGameObjects.push(redTroll);
 
 function ellipse(context, cx, cy, rx, ry) {
   context.fillStyle = '#404040';
@@ -82,7 +39,10 @@ function ellipse(context, cx, cy, rx, ry) {
 }
 
 function drawBattle() {
-  console.log(defender);
+  // context.globalAlpha = 0.3;
+  // context.fillStyle = 'black';
+  // context.fillRect(0, 0, canvas.width, canvas.height);
+  // context.globalAlpha = 1;
   const backgroundImage = new Image();
   backgroundImage.src = './assets/maps/desertBattle.png';
   backgroundImage.onload = () => {
@@ -111,13 +71,8 @@ function gameLoop(spriteCall) {
   }
   animationId = undefined;
   drawMap(context);
-  arrayGameObjects.forEach(gameObject => {
-    gameObject.currentAnimation.update();
-    gameObject.currentAnimation.move();
-    gameObject.currentAnimation.render();
-
-    gameObject.setWalkAnimation();
-  });
+  playerOne.render();
+  playerTwo.render();
   start();
 }
 
@@ -141,13 +96,11 @@ const controlUnits = e => {
         attacker.currentAnimation.setGoal(getTileCoordinates(e.target));
       } else if (e.target.className.includes('combat-ready')) {
         gameState = false;
-        arrayGameObjects.forEach(object => {
-          if (
-            object.getCharacterCoordinates().x === getTileCoordinates(e.target).x &&
-            object.getCharacterCoordinates().y === getTileCoordinates(e.target).y
-          )
-            defender = object;
-        });
+        if (playerTurn === 'playerOne') {
+          defender = playerTwo.getUnitByTile(e.target);
+        } else if (playerTurn === 'playerTwo') {
+          defender = playerOne.getUnitByTile(e.target);
+        }
         setTimeout(() => {
           gameState = true;
           attacker = undefined;
@@ -162,23 +115,13 @@ const controlUnits = e => {
       });
       attacker = undefined;
     } else {
-      arrayGameObjects.forEach(object => {
-        if (
-          object.getCharacterCoordinates().x === getTileCoordinates(e.target).x &&
-          object.getCharacterCoordinates().y === getTileCoordinates(e.target).y &&
-          object.team === playerTurn &&
-          gameState
-        ) {
-          attacker = object;
-          e.target.className = 'select';
-          highlightPath(object.getCharacterCoordinates(), object.movementAbility);
-          arrayGameObjects.forEach(enemie => {
-            if (enemie !== object && enemie.team !== object.team) {
-              highlightCombat(enemie.getCharacterCoordinates());
-            }
-          });
-        }
-      });
+      if (playerTurn === 'playerOne') {
+        attacker = playerOne.turn(e.target);
+        playerTwo.highlightTargets();
+      } else if (playerTurn === 'playerTwo') {
+        attacker = playerTwo.turn(e.target);
+        playerOne.highlightTargets();
+      }
     }
   } else {
     gameState = true;
@@ -190,10 +133,38 @@ board.onclick = controlUnits;
 
 button.onclick = () => {
   homeScreen.style.display = 'none';
-  document.querySelector('#selectionScreen').style.display = ''; // menuMusic.pause();
+  document.querySelector('#selectionScreen').style.display = '';
+  // menuMusic.pause();
   // menuMusic.src = 'http://23.237.126.42/ost/fire-emblem-heroes/gzjxtkxi/26%20Battle%20Player.mp3';
   // menuMusic.play();
   window.requestAnimationFrame(playIntro);
+};
+
+selectionScreen.onmouseover = changeAnimationSelection;
+selectionScreen.onmouseout = clearAnimation;
+selectionScreen.onclick = e => {
+  playersFactions = chooseFaction(e);
+  if (playersFactions) {
+    document.querySelector('#selectionScreen').style.display = 'none';
+    gameScreen.style.display = '';
+    switch (playersFactions[0]) {
+      case 'knights':
+        playerOne = new Knights(context);
+        break;
+      case 'trolls':
+        playerOne = new Trolls(context);
+        break;
+    }
+    switch (playersFactions[1]) {
+      case 'knights':
+        playerTwo = new Knights(context);
+        break;
+      case 'trolls':
+        playerTwo = new Trolls(context);
+        break;
+    }
+    start();
+  }
 };
 
 // document.body.onload = () => {

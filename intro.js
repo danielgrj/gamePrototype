@@ -1,5 +1,6 @@
 import { KnightThree } from './knight.js';
 import { GreenTroll, GrayTroll } from './troll.js';
+import GoblinOne from './goblin.js';
 
 const background = new Image();
 background.src = './assets/ui/introBackground.png';
@@ -13,9 +14,9 @@ const knight = new KnightThree(10, 5, 10, 10, context, {
 });
 const troll = new GreenTroll(10, 5, 10, 10, context, {
   x: 310,
-  y: 300
+  y: 310
 });
-const other = new GrayTroll(10, 5, 10, 10, context, {
+const goblin = new GoblinOne(10, 5, 10, 10, context, {
   x: 530,
   y: 300
 });
@@ -29,10 +30,10 @@ troll.sprites.attack.position = {
   x: 280,
   y: 250
 };
-other.sprites.attack.scale = 0.6;
-other.sprites.attack.position = {
+goblin.sprites.attack.scale = 0.5;
+goblin.sprites.attack.position = {
   x: 500,
-  y: 250
+  y: 300
 };
 
 const playIntro = () => {
@@ -47,14 +48,14 @@ const playIntro = () => {
   knight.currentAnimation.render();
   troll.currentAnimation.update();
   troll.currentAnimation.render();
-  other.currentAnimation.update();
-  other.currentAnimation.render();
+  goblin.currentAnimation.update();
+  goblin.currentAnimation.render();
   window.requestAnimationFrame(playIntro);
 };
 
 const chooseFaction = e => {
   const selection = e.target.getAttribute('selection');
-  if (selection === 'knights' || selection === 'trolls' || selection === 'other') {
+  if (selection === 'knights' || selection === 'trolls' || selection === 'goblin') {
     document.querySelector('#selectionScreen').className = 'p2';
     document.querySelector('#selectionScreen h3').innerHTML = 'P2';
     playersSelection.push(selection);
@@ -71,15 +72,15 @@ const changeAnimationSelection = e => {
     knight.currentAnimation = knight.sprites.attack;
   } else if (selection === 'trolls') {
     troll.currentAnimation = troll.sprites.attack;
-  } else if (selection === 'other') {
-    other.currentAnimation = other.sprites.attack;
+  } else if (selection === 'goblin') {
+    goblin.currentAnimation = goblin.sprites.attack;
   }
 };
 
 const clearAnimation = () => {
   knight.currentAnimation = knight.sprites.idle;
   troll.currentAnimation = troll.sprites.idle;
-  other.currentAnimation = other.sprites.idle;
+  goblin.currentAnimation = goblin.sprites.idle;
 };
 
 export { playIntro, changeAnimationSelection, clearAnimation, chooseFaction };

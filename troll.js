@@ -1,4 +1,5 @@
 import Character from './character.js';
+import Battalion from './battalion.js';
 
 class GreenTroll extends Character {
   constructor(name, health, attack, defense, context, position) {
@@ -210,4 +211,23 @@ class RedTroll extends Character {
   }
 }
 
-export { GreenTroll, GrayTroll, RedTroll };
+class Trolls extends Battalion {
+  constructor(context) {
+    super([
+      new GreenTroll(10, 5, 10, 10, context, {
+        x: 480,
+        y: 120
+      }),
+      new GrayTroll(10, 5, 10, 10, context, {
+        x: 480,
+        y: 360
+      }),
+      new RedTroll(10, 5, 10, 10, context, {
+        x: 600,
+        y: 240
+      })
+    ]);
+  }
+}
+
+export { GreenTroll, GrayTroll, RedTroll, Trolls };
