@@ -1,6 +1,6 @@
 import { KnightThree } from './knight.js';
 import { GreenTroll, GrayTroll } from './troll.js';
-import GoblinOne from './goblin.js';
+import { GoblinOne } from './goblin.js';
 
 const background = new Image();
 background.src = './assets/ui/introBackground.png';
@@ -55,7 +55,7 @@ const playIntro = () => {
 
 const chooseFaction = e => {
   const selection = e.target.getAttribute('selection');
-  if (selection === 'knights' || selection === 'trolls' || selection === 'goblin') {
+  if (selection === 'knights' || selection === 'trolls' || selection === 'goblins') {
     document.querySelector('#selectionScreen').className = 'p2';
     document.querySelector('#selectionScreen h3').innerHTML = 'P2';
     playersSelection.push(selection);
@@ -72,7 +72,7 @@ const changeAnimationSelection = e => {
     knight.currentAnimation = knight.sprites.attack;
   } else if (selection === 'trolls') {
     troll.currentAnimation = troll.sprites.attack;
-  } else if (selection === 'goblin') {
+  } else if (selection === 'goblins') {
     goblin.currentAnimation = goblin.sprites.attack;
   }
 };

@@ -1,8 +1,9 @@
-import { highlightPath, drawMap, highlightCombat, getTileCoordinates } from './map.js';
+import { highlightPath, highlightCombat, getTileCoordinates } from './map.js';
 
 export default class Battalion {
   constructor(units) {
     this.units = units;
+    this.movementsLeft = 2;
   }
 
   render() {
@@ -46,5 +47,9 @@ export default class Battalion {
         defender = unit;
     });
     return defender;
+  }
+
+  decreaseMovementsLeft() {
+    this.movementsLeft--;
   }
 }

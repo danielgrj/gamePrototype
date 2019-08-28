@@ -1,7 +1,7 @@
 import Character from './character.js';
 import Battalion from './battalion.js';
 
-export default class GoblinOne extends Character {
+class GoblinOne extends Character {
   constructor(name, health, attack, defense, context, position) {
     super(
       name,
@@ -91,3 +91,5 @@ class Goblins extends Battalion {
     ]);
   }
 }
+
+export { GoblinOne, Goblins };

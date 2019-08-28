@@ -1,6 +1,7 @@
-import { KnightOne, KnightTwo, KnightThree, Knights } from './knight.js';
-import { GreenTroll, GrayTroll, RedTroll, Trolls } from './troll.js';
-import { highlightPath, drawMap, highlightCombat, getTileCoordinates } from './map.js';
+import { Knights } from './knight.js';
+import { Trolls } from './troll.js';
+import { Goblins } from './goblin.js';
+import { drawMap, getTileCoordinates } from './map.js';
 import { playIntro, changeAnimationSelection, clearAnimation, chooseFaction } from './intro.js';
 
 const button = document.querySelector('button');
@@ -21,7 +22,8 @@ let playersFactions;
 let playerOne;
 let playerTwo;
 let gameState = true;
-let playerTurn = 'playerTwo';
+let playerPlaying;
+let playerWaiting;
 let attacker;
 let defender;
 
@@ -94,13 +96,10 @@ const controlUnits = e => {
     if (attacker) {
       if (e.target.className.includes('highlight')) {
         attacker.currentAnimation.setGoal(getTileCoordinates(e.target));
+        playerPlaying.movementsLeft--;
       } else if (e.target.className.includes('combat-ready')) {
         gameState = false;
-        if (playerTurn === 'playerOne') {
-          defender = playerTwo.getUnitByTile(e.target);
-        } else if (playerTurn === 'playerTwo') {
-          defender = playerOne.getUnitByTile(e.target);
-        }
+        defender = playerWaiting.getUnitByTile(e.target);
         setTimeout(() => {
           gameState = true;
           attacker = undefined;
@@ -108,6 +107,7 @@ const controlUnits = e => {
         [...document.querySelectorAll('[tile]')].forEach(tile => {
           tile.className = '';
         });
+        playerPlaying.movementsLeft--;
         return;
       }
       [...document.querySelectorAll('[tile]')].forEach(tile => {
@@ -115,13 +115,8 @@ const controlUnits = e => {
       });
       attacker = undefined;
     } else {
-      if (playerTurn === 'playerOne') {
-        attacker = playerOne.turn(e.target);
-        playerTwo.highlightTargets();
-      } else if (playerTurn === 'playerTwo') {
-        attacker = playerTwo.turn(e.target);
-        playerOne.highlightTargets();
-      }
+      attacker = playerPlaying.turn(e.target);
+      playerWaiting.highlightTargets();
     }
   } else {
     gameState = true;
@@ -130,6 +125,21 @@ const controlUnits = e => {
 };
 
 board.onclick = controlUnits;
+
+board.onmouseout = () => {
+  console.log(playerPlaying.movementsLeft);
+  if (playerPlaying.movementsLeft === 0) {
+    if (playerPlaying === playerOne) {
+      playerTwo.movementsLeft = 2;
+      playerPlaying = playerTwo;
+      playerWaiting = playerOne;
+    } else {
+      playerOne.movementsLeft = 2;
+      playerPlaying = playerOne;
+      playerWaiting = playerTwo;
+    }
+  }
+};
 
 button.onclick = () => {
   homeScreen.style.display = 'none';
@@ -154,6 +164,9 @@ selectionScreen.onclick = e => {
       case 'trolls':
         playerOne = new Trolls(context);
         break;
+      case 'goblins':
+        playerOne = new Goblins(contex);
+        break;
     }
     switch (playersFactions[1]) {
       case 'knights':
@@ -162,7 +175,13 @@ selectionScreen.onclick = e => {
       case 'trolls':
         playerTwo = new Trolls(context);
         break;
+      case 'goblins':
+        playerOne = new Goblins(contex);
+        break;
     }
+
+    playerPlaying = playerOne;
+    playerWaiting = playerTwo;
     start();
   }
 };
