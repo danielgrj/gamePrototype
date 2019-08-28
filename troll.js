@@ -64,7 +64,7 @@ class GreenTroll extends Character {
           scale: 0.3
         }
       },
-      'Trolls',
+      'trolls',
       { x: 2, y: 2 }
     );
   }

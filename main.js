@@ -2,11 +2,26 @@ import { KnightOne, KnightTwo, KnightThree } from './knight.js';
 import { GreenTroll, GrayTroll, RedTroll } from './troll.js';
 import { highlightPath, drawMap, highlightCombat, getTileCoordinates } from './map.js';
 
+import { playIntro, changeAnimationSelection, clearAnimation, chooseFaction } from './intro.js';
+let playersFactions;
+const selectionScreen = document.querySelector('#selectionScreen>main');
+
+selectionScreen.onmouseover = changeAnimationSelection;
+selectionScreen.onmouseout = clearAnimation;
+selectionScreen.onclick = e => {
+  playersFactions = chooseFaction(e);
+  if (playersFactions) {
+    document.querySelector('#selectionScreen').style.display = 'none';
+    gameScreen.style.display = '';
+    start();
+  }
+};
+
 const button = document.querySelector('button');
-const canvas = document.querySelector('canvas');
+const canvas = document.querySelector('#gameCanvas');
 const gameScreen = document.querySelector('#game');
 const homeScreen = document.querySelector('#homeScreen');
-const board = document.querySelector('main');
+const board = document.querySelector('#game > main');
 
 const context = canvas.getContext('2d');
 
@@ -16,81 +31,34 @@ menuMusic.loop = true;
 
 let animationId;
 let gameState = true;
+let playerTurn = 'knights';
 let attacker;
 let defender;
 
-const knight = new KnightOne(
-  10,
-  5,
-  10,
-  10,
-  context,
-  {
-    x: 120,
-    y: 120
-  },
-  'blue'
-);
-const knight2 = new KnightTwo(
-  10,
-  5,
-  10,
-  10,
-  context,
-  {
-    x: 360,
-    y: 240
-  },
-  'red'
-);
-const knight3 = new KnightThree(
-  10,
-  5,
-  10,
-  10,
-  context,
-  {
-    x: 480,
-    y: 240
-  },
-  'red'
-);
-const grenTroll = new GreenTroll(
-  10,
-  5,
-  10,
-  10,
-  context,
-  {
-    x: 480,
-    y: 120
-  },
-  'red'
-);
-const grayTroll = new GrayTroll(
-  10,
-  5,
-  10,
-  10,
-  context,
-  {
-    x: 480,
-    y: 360
-  },
-  'red'
-);
-const redTroll = new RedTroll(
-  10,
-  5,
-  10,
-  10,
-  context,
-  {
-    x: 600,
-    y: 240
-  },
-  'red'
-);
+const knight = new KnightOne(10, 5, 10, 10, context, {
+  x: 120,
+  y: 120
+});
+const knight2 = new KnightTwo(10, 5, 10, 10, context, {
+  x: 360,
+  y: 240
+});
+const knight3 = new KnightThree(10, 5, 10, 10, context, {
+  x: 480,
+  y: 240
+});
+const grenTroll = new GreenTroll(10, 5, 10, 10, context, {
+  x: 480,
+  y: 120
+});
+const grayTroll = new GrayTroll(10, 5, 10, 10, context, {
+  x: 480,
+  y: 360
+});
+const redTroll = new RedTroll(10, 5, 10, 10, context, {
+  x: 600,
+  y: 240
+});
 
 const arrayGameObjects = [];
 arrayGameObjects.push(knight);
@@ -198,13 +166,14 @@ const controlUnits = e => {
         if (
           object.getCharacterCoordinates().x === getTileCoordinates(e.target).x &&
           object.getCharacterCoordinates().y === getTileCoordinates(e.target).y &&
+          object.team === playerTurn &&
           gameState
         ) {
           attacker = object;
           e.target.className = 'select';
           highlightPath(object.getCharacterCoordinates(), object.movementAbility);
           arrayGameObjects.forEach(enemie => {
-            if (enemie !== object) {
+            if (enemie !== object && enemie.team !== object.team) {
               highlightCombat(enemie.getCharacterCoordinates());
             }
           });
@@ -221,11 +190,10 @@ board.onclick = controlUnits;
 
 button.onclick = () => {
   homeScreen.style.display = 'none';
-  gameScreen.style.display = '';
-  // menuMusic.pause();
+  document.querySelector('#selectionScreen').style.display = ''; // menuMusic.pause();
   // menuMusic.src = 'http://23.237.126.42/ost/fire-emblem-heroes/gzjxtkxi/26%20Battle%20Player.mp3';
   // menuMusic.play();
-  start();
+  window.requestAnimationFrame(playIntro);
 };
 
 // document.body.onload = () => {

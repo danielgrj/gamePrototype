@@ -10,10 +10,28 @@
   <body>
     <section id="homeScreen">
       <h1>Iron Emblem</h1>
-      <button>Press Start</button>
+      <button>Start</button>
+    </section>
+    <section id="selectionScreen" class="p1" style="display: none">
+      <canvas width="720" height="600" id="selectionCanvas"></canvas>
+      <main>
+        <div>
+          <h2>Choose your faction</h2>
+          <h3>P1</h3>
+        </div>
+        <div selection="knights">
+          <h4>Knights</h4>
+        </div>
+        <div selection="trolls">
+          <h4>Trolls</h4>
+        </div>
+        <div selection="other">
+          <h4>Others</h4>
+        </div>
+      </main>
     </section>
     <section id="game" style="display: none">
-      <canvas width="720" height="600"></canvas>
+      <canvas width="720" height="600" id="gameCanvas"></canvas>
       <main>
         <div tile="0,0"></div>
         <div tile="0,1"></div>

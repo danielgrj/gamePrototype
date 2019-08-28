@@ -134,7 +134,7 @@ class KnightTwo extends Character {
           scale: 0.3
         }
       },
-      'knightsGolden',
+      'knights',
       { x: 2, y: 2 }
     );
   }
@@ -204,7 +204,7 @@ class KnightThree extends Character {
           scale: 0.3
         }
       },
-      'knightsGolden',
+      'knights',
       { x: 2, y: 2 }
     );
   }

@@ -60,11 +60,11 @@ export default class Sprite {
 
   move() {
     if (this.position.x !== this.goal.x) {
-      if (this.position.x < this.goal.x) return (this.position.x += 2);
-      return (this.position.x -= 2);
+      if (this.position.x < this.goal.x) return (this.position.x += 3);
+      return (this.position.x -= 3);
     } else if (this.position.y !== this.goal.y) {
-      if (this.position.y < this.goal.y) return (this.position.y += 2);
-      return (this.position.y -= 2);
+      if (this.position.y < this.goal.y) return (this.position.y += 3);
+      return (this.position.y -= 3);
     }
   }
 
