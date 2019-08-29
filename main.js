@@ -14,6 +14,7 @@ const homeScreen = document.querySelector('#homeScreen');
 const board = document.querySelector('#game > main');
 const selectionScreen = document.querySelector('#selectionScreen>main');
 const finalScreen = document.querySelector('#finalScreen');
+const turnCard = document.querySelector('#changeTurn');
 
 const context = canvas.getContext('2d');
 
@@ -126,20 +127,44 @@ const controlUnits = e => {
       if (e.target.className.includes('highlight')) {
         attacker.currentAnimation.setGoal(getTileCoordinates(e.target));
         playerPlaying.movementsLeft--;
+        setTimeout(() => {
+          if (playerPlaying.movementsLeft === 0) {
+            if (playerPlaying === playerOne) {
+              playerTwo.movementsLeft = 2;
+              playerPlaying = playerTwo;
+              playerWaiting = playerOne;
+            } else {
+              playerOne.movementsLeft = 2;
+              playerPlaying = playerOne;
+              playerWaiting = playerTwo;
+            }
+            changeTurn();
+          }
+        }, 1500);
       } else if (e.target.className.includes('combat-ready')) {
         gameState = false;
         defender = playerWaiting.getUnitByTile(e.target);
-        console.log(defender.health, 'hp before');
         battle(attacker, defender);
-        console.log(defender.health, 'hp after');
-        setTimeout(() => {
-          gameState = true;
-          attacker = undefined;
-        }, 3500);
         [...document.querySelectorAll('[tile]')].forEach(tile => {
           tile.className = '';
         });
         playerPlaying.movementsLeft--;
+        setTimeout(() => {
+          gameState = true;
+          attacker = undefined;
+          if (playerPlaying.movementsLeft === 0 && playerWaiting.units.length !== 1 && defender.health > 0) {
+            if (playerPlaying === playerOne) {
+              playerTwo.movementsLeft = 2;
+              playerPlaying = playerTwo;
+              playerWaiting = playerOne;
+            } else {
+              playerOne.movementsLeft = 2;
+              playerPlaying = playerOne;
+              playerWaiting = playerTwo;
+            }
+            changeTurn();
+          }
+        }, 3500);
         return;
       }
       [...document.querySelectorAll('[tile]')].forEach(tile => {
@@ -160,19 +185,17 @@ board.onclick = controlUnits;
 
 board.onmouseout = () => {
   console.log(playerPlaying.movementsLeft);
-  if (playerPlaying.movementsLeft === 0) {
-    if (playerPlaying === playerOne) {
-      playerTwo.movementsLeft = 2;
-      playerPlaying = playerTwo;
-      playerWaiting = playerOne;
-      changeTurn();
-    } else {
-      playerOne.movementsLeft = 2;
-      playerPlaying = playerOne;
-      playerWaiting = playerTwo;
-      changeTurn();
-    }
-  }
+  // if (playerPlaying.movementsLeft === 0) {
+  //   if (playerPlaying === playerOne) {
+  //     playerTwo.movementsLeft = 2;
+  //     playerPlaying = playerTwo;
+  //     playerWaiting = playerOne;
+  //   } else {
+  //     playerOne.movementsLeft = 2;
+  //     playerPlaying = playerOne;
+  //     playerWaiting = playerTwo;
+  //   }
+  // }
 };
 
 function requestIntro() {
@@ -195,7 +218,6 @@ function stopIntro() {
 }
 
 function changeTurn() {
-  const turnCard = document.querySelector('#changeTurn');
   turnCard.children[0].children[0].innerHTML = playerPlaying === playerOne ? 'Player 1' : 'Player 2';
   turnCard.children[0].className = playerPlaying === playerOne ? 'fs-bg-red' : 'fs-bg-blue';
   turnCard.style.display = '';
@@ -274,6 +296,10 @@ newGameButton.onclick = () => {
   clearVariables();
   startIntro();
   document.querySelector('#selectionScreen').style.display = '';
+};
+
+turnCard.onclick = () => {
+  turnCard.style.display = 'none';
 };
 
 // document.body.onload = () => {

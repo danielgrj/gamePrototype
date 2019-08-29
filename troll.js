@@ -18,7 +18,7 @@ class GreenTroll extends Character {
           numberOfFrames: 6,
           loop: true,
           ticksPerFrame: 4,
-          scale: 0.3
+          scale: 0.35
         },
         walk: {
           context,
@@ -29,7 +29,7 @@ class GreenTroll extends Character {
           numberOfFrames: 6,
           loop: true,
           ticksPerFrame: 4,
-          scale: 0.3
+          scale: 0.4
         },
         attack: {
           context,
@@ -51,7 +51,7 @@ class GreenTroll extends Character {
           numberOfFrames: 6,
           loop: true,
           ticksPerFrame: 4,
-          scale: 0.45
+          scale: 0.5
         },
         dead: {
           context,
@@ -68,6 +68,14 @@ class GreenTroll extends Character {
       'trolls',
       { x: 2, y: 2 }
     );
+  }
+
+  setBattleAnimation() {
+    this.sprites.attack.position = { x: 55, y: 172 };
+  }
+
+  setHurtAnimation() {
+    this.sprites.hurt.position = { x: 420, y: 250 };
   }
 }
 
@@ -99,7 +107,7 @@ class GrayTroll extends Character {
           numberOfFrames: 6,
           loop: true,
           ticksPerFrame: 4,
-          scale: 0.35
+          scale: 0.4
         },
         attack: {
           context,
@@ -139,6 +147,9 @@ class GrayTroll extends Character {
       { x: 2, y: 2 }
     );
   }
+  setBattleAnimation() {
+    this.sprites.attack.position = { x: 55, y: 172 };
+  }
 }
 
 class RedTroll extends Character {
@@ -169,7 +180,7 @@ class RedTroll extends Character {
           numberOfFrames: 6,
           loop: true,
           ticksPerFrame: 4,
-          scale: 0.35
+          scale: 0.4
         },
         attack: {
           context,
@@ -208,6 +219,9 @@ class RedTroll extends Character {
       'trolls',
       { x: 2, y: 2 }
     );
+  }
+  setBattleAnimation() {
+    this.sprites.attack.position = { x: 55, y: 172 };
   }
 }
 
