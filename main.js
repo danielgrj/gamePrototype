@@ -306,12 +306,16 @@ turnCard.onclick = () => {
 //   menuMusic.play();
 // };
 
-// board.onmouseover = e => {
-//   if (e.target.className.includes('select')) return;
-//   e.target.className = 'hover';
-// };
+board.onmouseover = e => {
+  if (
+    e.target.className.includes('select') ||
+    e.target.className.includes('highlight') ||
+    e.target.className.includes('combat-ready')
+  )
+    return;
+  e.target.className = 'hover';
+};
 
-// board.onmouseout = e => {
-//   if (e.target.className.includes('select')) return;
-//   e.target.className = '';
-// };
+board.onmouseout = e => {
+  if (e.target.className.includes('hover')) return (e.target.className = '');
+};
