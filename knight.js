@@ -213,20 +213,23 @@ class KnightThree extends Character {
 
 class Knights extends Battalion {
   constructor(context) {
-    super([
-      new KnightOne(10, 5, 10, 10, context, {
-        x: 120,
-        y: 120
-      }),
-      new KnightTwo(10, 5, 10, 10, context, {
-        x: 360,
-        y: 240
-      }),
-      new KnightThree(10, 5, 10, 10, context, {
-        x: 480,
-        y: 240
-      })
-    ]);
+    super(
+      [
+        new KnightOne(10, 5, 10, 10, context, {
+          x: 120,
+          y: 120
+        }),
+        new KnightTwo(10, 5, 10, 10, context, {
+          x: 360,
+          y: 240
+        }),
+        new KnightThree(10, 5, 10, 10, context, {
+          x: 480,
+          y: 240
+        })
+      ],
+      'knights'
+    );
   }
 }
 

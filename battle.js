@@ -14,3 +14,5 @@ function battle(attacker, defender) {
   }
   return false;
 }
+
+export { battle };

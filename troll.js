@@ -213,20 +213,23 @@ class RedTroll extends Character {
 
 class Trolls extends Battalion {
   constructor(context) {
-    super([
-      new GreenTroll(10, 5, 10, 10, context, {
-        x: 480,
-        y: 120
-      }),
-      new GrayTroll(10, 5, 10, 10, context, {
-        x: 480,
-        y: 360
-      }),
-      new RedTroll(10, 5, 10, 10, context, {
-        x: 600,
-        y: 240
-      })
-    ]);
+    super(
+      [
+        new GreenTroll(10, 10, 5, 5, context, {
+          x: 480,
+          y: 120
+        }),
+        new GrayTroll(10, 10, 5, 5, context, {
+          x: 480,
+          y: 360
+        }),
+        new RedTroll(10, 10, 5, 5, context, {
+          x: 600,
+          y: 240
+        })
+      ],
+      'trolls'
+    );
   }
 }
 

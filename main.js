@@ -3,6 +3,8 @@ import { Trolls } from './troll.js';
 import { Goblins } from './goblin.js';
 import { drawMap, getTileCoordinates } from './map.js';
 import { playIntro, changeAnimationSelection, clearAnimation, chooseFaction } from './intro.js';
+import { battle } from './battle.js';
+import showInformation from './info.js';
 
 const button = document.querySelector('button');
 const canvas = document.querySelector('#gameCanvas');
@@ -26,6 +28,7 @@ let playerPlaying;
 let playerWaiting;
 let attacker;
 let defender;
+let winner;
 
 function ellipse(context, cx, cy, rx, ry) {
   context.fillStyle = '#404040';
@@ -41,10 +44,6 @@ function ellipse(context, cx, cy, rx, ry) {
 }
 
 function drawBattle() {
-  // context.globalAlpha = 0.3;
-  // context.fillStyle = 'black';
-  // context.fillRect(0, 0, canvas.width, canvas.height);
-  // context.globalAlpha = 1;
   const backgroundImage = new Image();
   backgroundImage.src = './assets/maps/desertBattle.png';
   backgroundImage.onload = () => {
@@ -60,21 +59,41 @@ function drawBattle() {
   defender.sprites.hurt.render();
 }
 
-function gameLoop(spriteCall) {
+function gameLoop() {
+  animationId = undefined;
   if (
     !gameState &&
     attacker.getCharacterCoordinates().x === attacker.getGoalCoordinates().x &&
     attacker.getCharacterCoordinates().y === attacker.getGoalCoordinates().y
   ) {
     animationId = undefined;
+    showInformation(playerOne, 'infoP1', attacker);
+    showInformation(playerTwo, 'infoP2', attacker);
+    showInformation(playerOne, 'infoP1', defender);
+    showInformation(playerTwo, 'infoP2', defender);
     drawBattle();
     start();
     return;
   }
-  animationId = undefined;
+  if (playerOne.units.length === 0) {
+    winner = 'Player 2';
+    console.log(winner);
+    stop();
+    return;
+  } else if (playerTwo.units.length === 0) {
+    winner = 'Player 1';
+    console.log(winner);
+    stop();
+    return;
+  }
+  showInformation(playerOne, 'infoP1');
+  showInformation(playerTwo, 'infoP2');
+  // animationId = undefined;
   drawMap(context);
   playerOne.render();
   playerTwo.render();
+  playerOne.deleteDeaths();
+  playerTwo.deleteDeaths();
   start();
 }
 
@@ -100,6 +119,9 @@ const controlUnits = e => {
       } else if (e.target.className.includes('combat-ready')) {
         gameState = false;
         defender = playerWaiting.getUnitByTile(e.target);
+        console.log(defender.health, 'hp before');
+        battle(attacker, defender);
+        console.log(defender.health, 'hp after');
         setTimeout(() => {
           gameState = true;
           attacker = undefined;
@@ -157,6 +179,7 @@ selectionScreen.onclick = e => {
   if (playersFactions) {
     document.querySelector('#selectionScreen').style.display = 'none';
     gameScreen.style.display = '';
+    console.log(playersFactions);
     switch (playersFactions[0]) {
       case 'knights':
         playerOne = new Knights(context);
@@ -165,7 +188,7 @@ selectionScreen.onclick = e => {
         playerOne = new Trolls(context);
         break;
       case 'goblins':
-        playerOne = new Goblins(contex);
+        playerOne = new Goblins(context);
         break;
     }
     switch (playersFactions[1]) {
@@ -176,12 +199,15 @@ selectionScreen.onclick = e => {
         playerTwo = new Trolls(context);
         break;
       case 'goblins':
-        playerOne = new Goblins(contex);
+        playerTwo = new Goblins(context);
         break;
     }
-
+    console.log(playerOne);
     playerPlaying = playerOne;
     playerWaiting = playerTwo;
+
+    showInformation(playerOne, 'infoP1');
+    showInformation(playerTwo, 'infoP2');
     start();
   }
 };

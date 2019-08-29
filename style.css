@@ -39,7 +39,14 @@ body {
   border: none;
   border-radius: 5px;
   color: #fff;
-  padding: 25px 35px;
+  padding: 20px 45px;
+}
+
+#homeScreen > button:nth-child(3) {
+  color: #3b3034;
+  background: none;
+  border: none;
+  margin-top: 50px;
 }
 
 /*Selection screen*/
@@ -107,9 +114,92 @@ body {
   background-color: #222;
 }
 
+aside {
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+}
+
+aside > div {
+  color: #eee;
+  width: 20%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(to top, rgba(115, 194, 251, 0.5), rgba(115, 194, 251, 0.4)),
+    url('./assets/ui/infobg.jpeg');
+  z-index: 3;
+  -webkit-box-shadow: 10px 10px 16px -11px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 16px -11px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 10px 16px -11px rgba(0, 0, 0, 0.75);
+}
+
+#infoP1 {
+  background-image: linear-gradient(to top, rgba(255, 36, 0, 0.3), rgba(255, 36, 0, 0.4)),
+    url('./assets/ui/infobg.jpeg');
+}
+
+#infoP2 {
+  background-image: linear-gradient(to top, rgba(115, 194, 251, 0.5), rgba(115, 194, 251, 0.4)),
+    url('./assets/ui/infobg.jpeg');
+}
+
+.darkerBlue {
+  background-image: linear-gradient(to top, rgba(115, 194, 251, 0.2), rgba(115, 194, 251, 0.3)),
+    url('./assets/ui/infobg.jpeg');
+}
+
+.darkerRed {
+  background-image: linear-gradient(to top, rgba(255, 36, 0, 0.2), rgba(255, 36, 0, 0.3)),
+    url('./assets/ui/infobg.jpeg');
+}
+
+.infoBattalion {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.infoBattalion > div {
+  padding: 10px;
+  width: 33%;
+}
+
+.infoBattalion > div > div > img {
+  width: 100%;
+  height: auto;
+}
+
+.infoCurrent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 50%;
+  margin-top: 35px;
+}
+
+.infoCurrent > div {
+  width: 55%;
+}
+
+.infoCurrent > div > img {
+  width: 100%;
+  height: auto;
+}
+
 canvas {
   position: absolute;
-  top: 13%;
+  top: 15%;
   left: 30%;
   transition: all 1s;
   z-index: 1;
@@ -118,7 +208,7 @@ canvas {
 #game > main {
   position: absolute;
 
-  top: 13%;
+  top: 15%;
   left: 30%;
   width: 720px;
   height: 600px;

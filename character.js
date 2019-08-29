@@ -3,6 +3,7 @@ import Sprite from './sprite.js';
 export default class Character {
   constructor(name, health, attack, defense, spriteOptions, team, movementAbility) {
     this.name = name;
+    this.maxHealth = health;
     this.health = health;
     this.attack = attack;
     this.defense = defense;
@@ -52,5 +53,13 @@ export default class Character {
 
   setHurtAnimation() {
     this.sprites.hurt.position = { x: 420, y: 250 };
+  }
+
+  isDead() {
+    if (this.health <= 0) {
+      this.currentAnimation.position = { x: -1, y: -1 };
+      return true;
+    }
+    return false;
   }
 }

@@ -34,9 +34,12 @@ function getTileCoordinates(tile) {
   };
 }
 
-function highlightPath({ x, y }, maxMovement) {
+function highlightPath({ x, y }, maxMovement, friendlyUnits) {
   const highlightTiles = [];
   let maxY = maxMovement.x;
+  const fuCoordinates = friendlyUnits.map(unit => {
+    return `${unit.getCharacterCoordinates().y},${unit.getCharacterCoordinates().x}`;
+  });
 
   for (let i = 0; i <= maxMovement.y; i++) {
     for (let j = 0; j <= maxY; j++) {
@@ -47,15 +50,17 @@ function highlightPath({ x, y }, maxMovement) {
     }
     maxY--;
   }
+  console.log(fuCoordinates);
 
-  highlightTiles.forEach(coordinate => {
-    if (
-      document.querySelector(`[tile="${coordinate}"]`) !== null &&
-      !document.querySelector(`[tile="${coordinate}"]`).className.includes('select')
-    ) {
-      document.querySelector(`[tile="${coordinate}"]`).className = 'highlight';
-    }
-  });
+  highlightTiles
+    .filter(tile => !fuCoordinates.includes(tile))
+    .forEach(coordinate => {
+      const tileToHighlight = document.querySelector(`[tile="${coordinate}"]`);
+
+      if (tileToHighlight !== null && !tileToHighlight.className.includes('select')) {
+        tileToHighlight.className = 'highlight';
+      }
+    });
 }
 
 function highlightCombat({ x, y }) {

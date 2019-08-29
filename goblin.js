@@ -73,22 +73,23 @@ class GoblinOne extends Character {
 
 class Goblins extends Battalion {
   constructor(context) {
-    super([
+    super(
       [
-        new GoblinOne(10, 5, 10, 10, context, {
+        new GoblinOne(10, 0, 4, 2, context, {
           x: 120,
           y: 120
         }),
-        new GoblinOne(10, 5, 10, 10, context, {
+        new GoblinOne(10, 1, 4, 2, context, {
           x: 360,
           y: 240
         }),
-        new GoblinOne(10, 5, 10, 10, context, {
+        new GoblinOne(10, 0, 4, 2, context, {
           x: 480,
           y: 240
         })
-      ]
-    ]);
+      ],
+      'goblins'
+    );
   }
 }
 

@@ -33,6 +33,64 @@
     </section>
     <section id="game" style="display: none">
       <canvas width="720" height="600" id="gameCanvas"></canvas>
+      <aside>
+        <div id="infoP1">
+          <h2>P1</h2>
+          <div class="infoBattalion">
+            <div class="u1">
+              <div><img src="" alt="" /></div>
+              <h3 class="name"></h3>
+              <span class="hp"></span>
+            </div>
+            <div class="u2">
+              <div><img src="" alt="" /></div>
+              <h3 class="name"></h3>
+              <span class="hp"></span>
+            </div>
+            <div class="u3">
+              <div><img src="" alt="" /></div>
+              <h3 class="name"></h3>
+              <span class="hp"></span>
+            </div>
+          </div>
+          <div class="infoCurrent">
+            <div><img src="" alt="" /></div>
+            <h2></h2>
+            <div class="hpBar">
+              <canvas></canvas>
+            </div>
+            <span class="hpNumber"></span>
+          </div>
+        </div>
+        <div id="infoP2">
+          <h2>P2</h2>
+          <div class="infoBattalion">
+            <div class="u1">
+              <div><img src="" alt="" /></div>
+              <h3 class="name"></h3>
+              <span class="hp"></span>
+            </div>
+            <div class="u2">
+              <div><img src="" alt="" /></div>
+              <h3 class="name"></h3>
+              <span class="hp"></span>
+            </div>
+            <div class="u3">
+              <div><img src="" alt="" /></div>
+              <h3 class="name"></h3>
+              <span class="hp"></span>
+            </div>
+          </div>
+          <div class="infoCurrent">
+            <div><img src="" alt="" /></div>
+            <h2></h2>
+            <div class="hpBar">
+              <canvas></canvas>
+            </div>
+            <span class="hpNumber"></span>
+          </div>
+        </div>
+      </aside>
       <main>
         <div tile="0,0"></div>
         <div tile="0,1"></div>
@@ -66,6 +124,16 @@
         <div tile="4,5"></div>
       </main>
       <script src="main.js" type="module"></script>
+    </section>
+    <section id="finalScreen" style="display: none">
+      <div>
+        <h3></h3>
+        <span></span>
+      </div>
+      <div>
+        <button>Play again</button>
+        <button>Credits</button>
+      </div>
     </section>
   </body>
 </html>

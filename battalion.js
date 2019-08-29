@@ -1,9 +1,10 @@
 import { highlightPath, highlightCombat, getTileCoordinates } from './map.js';
 
 export default class Battalion {
-  constructor(units) {
+  constructor(units, name) {
     this.units = units;
     this.movementsLeft = 2;
+    this.name = name;
   }
 
   render() {
@@ -13,6 +14,9 @@ export default class Battalion {
       unit.currentAnimation.render();
 
       unit.setWalkAnimation();
+      // if (!unit.isDead()) {
+
+      // }
     });
   }
 
@@ -25,7 +29,7 @@ export default class Battalion {
       ) {
         attacker = unit;
         tile.className = 'select';
-        highlightPath(unit.getCharacterCoordinates(), unit.movementAbility);
+        highlightPath(unit.getCharacterCoordinates(), unit.movementAbility, this.units);
       }
     });
     return attacker;
@@ -49,7 +53,17 @@ export default class Battalion {
     return defender;
   }
 
-  decreaseMovementsLeft() {
-    this.movementsLeft--;
+  isDefeated() {
+    return this.units.reduce((accum, unit) => {
+      return accum && unit.health <= 0;
+    }, true);
+  }
+
+  deleteDeaths() {
+    this.units.forEach(unit => {
+      if (unit.health <= 0) {
+        this.units.splice(this.units.indexOf(unit), 1);
+      }
+    });
   }
 }
