@@ -21,6 +21,7 @@ const context = canvas.getContext('2d');
 // const menuMusic = new Audio();
 // menuMusic.src = 'http://23.237.126.42/ost/fire-emblem-heroes/wkcvvcla/04%20Menu%20Normal.mp3';
 // menuMusic.loop = true;
+// menuMusic.volume = 0.4;
 
 let animationId;
 let introId;
@@ -79,8 +80,8 @@ function gameLoop() {
     animationId = undefined;
     showInformation(playerOne, 'infoP1', attacker);
     showInformation(playerTwo, 'infoP2', attacker);
-    showInformation(playerOne, 'infoP1', defender);
-    showInformation(playerTwo, 'infoP2', defender);
+    showInformation(playerOne, 'infoP1', defender, false);
+    showInformation(playerTwo, 'infoP2', defender, false);
     drawBattle();
     start();
     return;
@@ -254,13 +255,13 @@ selectionScreen.onclick = e => {
     }
     switch (playersFactions[1]) {
       case 'knights':
-        playerTwo = new Knights(context);
+        playerTwo = new Knights(context, false);
         break;
       case 'trolls':
-        playerTwo = new Trolls(context);
+        playerTwo = new Trolls(context, false);
         break;
       case 'goblins':
-        playerTwo = new Goblins(context);
+        playerTwo = new Goblins(context, false);
         break;
     }
     playerPlaying = playerOne;
@@ -310,12 +311,13 @@ board.onmouseover = e => {
   if (
     e.target.className.includes('select') ||
     e.target.className.includes('highlight') ||
-    e.target.className.includes('combat-ready')
+    e.target.className.includes('combat-ready') ||
+    !gameState
   )
     return;
   e.target.className = 'hover';
 };
 
 board.onmouseout = e => {
-  if (e.target.className.includes('hover')) return (e.target.className = '');
+  if (e.target.className.includes('hover') || !gameState) return (e.target.className = '');
 };

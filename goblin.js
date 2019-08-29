@@ -236,21 +236,16 @@ class GoblinThree extends Character {
 }
 
 class Goblins extends Battalion {
-  constructor(context) {
+  constructor(context, player = true) {
+    const positions = player
+      ? [{ x: 0, y: 480 }, { x: 120, y: 360 }, { x: 240, y: 480 }]
+      : [{ x: 360, y: 0 }, { x: 480, y: 120 }, { x: 600, y: 0 }];
+
     super(
       [
-        new GoblinOne(10, 10, 4, 2, context, {
-          x: 120,
-          y: 120
-        }),
-        new GoblinTwo(10, 10, 4, 2, context, {
-          x: 360,
-          y: 240
-        }),
-        new GoblinThree(10, 10, 4, 2, context, {
-          x: 480,
-          y: 240
-        })
+        new GoblinOne(10, 10, 4, 2, context, positions[0]),
+        new GoblinTwo(10, 10, 4, 2, context, positions[1]),
+        new GoblinThree(10, 10, 4, 2, context, positions[2])
       ],
       'goblins'
     );

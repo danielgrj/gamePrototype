@@ -144,6 +144,11 @@ aside > div {
   box-shadow: 10px 10px 16px -11px rgba(0, 0, 0, 0.75);
 }
 
+aside h3 {
+  font-size: 20px;
+  margin: 8px 0;
+}
+
 #infoP1 {
   background-image: linear-gradient(to top, rgba(255, 36, 0, 0.3), rgba(255, 36, 0, 0.4)),
     url('./assets/ui/infobg.jpeg');
@@ -191,6 +196,10 @@ aside > div {
 
 .infoCurrent > div {
   width: 55%;
+}
+
+.infoCurrent > h2:first-child {
+  font-size: 22px;
 }
 
 .infoCurrent > div > img {

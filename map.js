@@ -64,14 +64,21 @@ function highlightPath({ x, y }, maxMovement, friendlyUnits) {
 }
 
 function highlightCombat({ x, y }) {
-  if (
-    document.querySelector(`[tile="${y - 1},${x}"]`).className.includes('highlight') ||
-    document.querySelector(`[tile="${y + 1},${x}"]`).className.includes('highlight') ||
-    document.querySelector(`[tile="${y},${x + 1}"]`).className.includes('highlight') ||
-    document.querySelector(`[tile="${y},${x - 1}"]`).className.includes('highlight') ||
-    document.querySelector(`[tile="${y},${x}"]`).className.includes('highlight')
-  ) {
-    document.querySelector(`[tile="${y},${x}"]`).className = 'combat-ready';
+  console.log(x, y);
+
+  try {
+    if (
+      document.querySelector(`[tile="${y - 1},${x}"]`).className.includes('highlight') ||
+      document.querySelector(`[tile="${y + 1},${x}"]`).className.includes('highlight') ||
+      document.querySelector(`[tile="${y},${x + 1}"]`).className.includes('highlight') ||
+      document.querySelector(`[tile="${y},${x - 1}"]`).className.includes('highlight') ||
+      document.querySelector(`[tile="${y},${x}"]`).className.includes('highlight')
+    ) {
+      document.querySelector(`[tile="${y},${x}"]`).className = 'combat-ready';
+    }
+  } catch (e) {
+    console.log('puto');
+    return;
   }
 }
 

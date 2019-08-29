@@ -37,6 +37,8 @@ export default class Battalion {
 
   highlightTargets() {
     this.units.forEach(unit => {
+      console.log(unit, 'high');
+      console.log(unit.getCharacterCoordinates(), 'convo');
       highlightCombat(unit.getCharacterCoordinates());
     });
   }

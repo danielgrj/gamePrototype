@@ -226,21 +226,16 @@ class RedTroll extends Character {
 }
 
 class Trolls extends Battalion {
-  constructor(context) {
+  constructor(context, player = true) {
+    const positions = player
+      ? [{ x: 0, y: 480 }, { x: 120, y: 360 }, { x: 240, y: 480 }]
+      : [{ x: 360, y: 0 }, { x: 480, y: 120 }, { x: 600, y: 0 }];
+
     super(
       [
-        new GreenTroll(10, 10, 5, 5, context, {
-          x: 480,
-          y: 120
-        }),
-        new GrayTroll(10, 10, 5, 5, context, {
-          x: 480,
-          y: 360
-        }),
-        new RedTroll(10, 10, 5, 5, context, {
-          x: 600,
-          y: 240
-        })
+        new GreenTroll(10, 10, 5, 5, context, positions[0]),
+        new GrayTroll(10, 10, 5, 5, context, positions[1]),
+        new RedTroll(10, 10, 5, 5, context, positions[2])
       ],
       'trolls'
     );
