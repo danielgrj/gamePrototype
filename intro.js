@@ -6,7 +6,7 @@ const background = new Image();
 background.src = './assets/ui/introBackground.png';
 const canvas = document.querySelector('#selectionCanvas');
 const context = canvas.getContext('2d');
-const playersSelection = [];
+let playersSelection = [];
 
 const knight = new KnightThree(10, 5, 10, 10, context, {
   x: 90,
@@ -50,7 +50,6 @@ const playIntro = () => {
   troll.currentAnimation.render();
   goblin.currentAnimation.update();
   goblin.currentAnimation.render();
-  window.requestAnimationFrame(playIntro);
 };
 
 const chooseFaction = e => {
@@ -65,9 +64,12 @@ const chooseFaction = e => {
   }
 };
 
+const clearVariables = () => {
+  playersSelection = [];
+};
+
 const changeAnimationSelection = e => {
   const selection = e.target.getAttribute('selection');
-  console.log(selection);
   if (selection === 'knights') {
     knight.currentAnimation = knight.sprites.attack;
   } else if (selection === 'trolls') {
@@ -83,4 +85,4 @@ const clearAnimation = () => {
   goblin.currentAnimation = goblin.sprites.idle;
 };
 
-export { playIntro, changeAnimationSelection, clearAnimation, chooseFaction };
+export { playIntro, changeAnimationSelection, clearAnimation, chooseFaction, clearVariables };

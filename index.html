@@ -31,6 +31,11 @@
         </div>
       </main>
     </section>
+    <section id="changeTurn" style="display: none">
+      <div>
+        <span>Player 1</span>
+      </div>
+    </section>
     <section id="game" style="display: none">
       <canvas width="720" height="600" id="gameCanvas"></canvas>
       <aside>
@@ -127,12 +132,12 @@
     </section>
     <section id="finalScreen" style="display: none">
       <div>
-        <h3></h3>
-        <span></span>
+        <h3>Winner</h3>
+        <span>Player 1</span>
       </div>
       <div>
-        <button>Play again</button>
-        <button>Credits</button>
+        <button id="replay">Play again</button>
+        <button id="credits-fs">Credits</button>
       </div>
     </section>
   </body>

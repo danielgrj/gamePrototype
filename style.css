@@ -13,6 +13,7 @@ body {
   padding: 0;
   font-family: 'Montserrat', sans-serif;
   font-size: 22px;
+  position: relative;
 }
 
 /*Home Screen*/
@@ -104,7 +105,7 @@ body {
   color: rgba(0, 128, 255, 1);
 }
 
-/*Board*/
+/*Info*/
 
 #game {
   position: relative;
@@ -196,6 +197,85 @@ aside > div {
   width: 100%;
   height: auto;
 }
+
+/*Turn change*/
+#changeTurn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 4;
+}
+
+#changeTurn > div {
+  padding-top: 50px;
+  font-size: 36px;
+  width: 100%;
+  height: 150px;
+  color: #ddd;
+  text-align: center;
+}
+
+/*Final Screen*/
+#finalScreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 4;
+}
+
+#finalScreen > div > h3 {
+  font-size: 68px;
+  margin: 0;
+  padding: 25px 0;
+}
+
+#finalScreen > div > span {
+  font-size: 48px;
+}
+
+#finalScreen > div:first-child {
+  width: 100%;
+  height: 250px;
+  color: #ddd;
+  text-align: center;
+}
+
+.fs-bg-red {
+  background-image: linear-gradient(to right bottom, rgba(255, 36, 0, 0.8) 65%, rgba(255, 36, 0, 0.2));
+}
+
+.fs-bg-blue {
+  background-image: linear-gradient(to right bottom, rgba(115, 194, 251, 0.9) 65%, rgba(115, 194, 251, 0.3));
+}
+
+#finalScreen > div:nth-child(2) {
+  display: flex;
+  justify-content: center;
+}
+
+#finalScreen > div > button {
+  margin: 30px 10px;
+  font-size: 22px;
+  color: #ddd;
+  border: none;
+  border-radius: 5px;
+  padding: 22px 35px;
+  background-color: #333;
+}
+
+/*Board*/
 
 canvas {
   position: absolute;
