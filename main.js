@@ -9,6 +9,7 @@ import showInformation from './info.js';
 const button = document.querySelector('button');
 const newGameButton = document.querySelector('#replay');
 const canvas = document.querySelector('#gameCanvas');
+
 const gameScreen = document.querySelector('#game');
 const homeScreen = document.querySelector('#homeScreen');
 const board = document.querySelector('#game > main');
@@ -18,10 +19,31 @@ const turnCard = document.querySelector('#changeTurn');
 
 const context = canvas.getContext('2d');
 
-// const menuMusic = new Audio();
-// menuMusic.src = 'http://23.237.126.42/ost/fire-emblem-heroes/wkcvvcla/04%20Menu%20Normal.mp3';
-// menuMusic.loop = true;
-// menuMusic.volume = 0.4;
+const menuMusic = new Audio();
+menuMusic.src = 'http://23.237.126.42/ost/fire-emblem-heroes/wkcvvcla/04%20Menu%20Normal.mp3';
+menuMusic.loop = true;
+menuMusic.volume = 0.3;
+const battleMusic = new Audio();
+battleMusic.src = 'http://23.237.126.42/ost/fire-emblem-heroes/gzjxtkxi/26%20Battle%20Player.mp3';
+battleMusic.loop = true;
+battleMusic.volume = 0.4;
+const selectionMusic = new Audio();
+selectionMusic.src = 'http://23.237.126.42/ost/fire-emblem-heroes/zqaldfzc/12%20Summon%20Common.mp3';
+selectionMusic.loop = true;
+selectionMusic.volume = 0.4;
+const winningMusic = new Audio();
+winningMusic.src = 'http://23.237.126.42/ost/fire-emblem-awakening/rzkqktmf/2-02%20Destiny~Ablaze.mp3';
+winningMusic.loop = true;
+winningMusic.volume = 0.45;
+const selectionEffect = new Audio();
+selectionEffect.src = 'https://gamepedia.cursecdn.com/feheroes_gamepedia_en/b/ba/Se_sys_phase_player1.flac';
+selectionEffect.volume = 0.8;
+const turnEffect = new Audio();
+turnEffect.src = 'https://gamepedia.cursecdn.com/feheroes_gamepedia_en/0/00/Se_sys_home_friend.flac';
+const attackEffect = new Audio();
+attackEffect.src = 'https://gamepedia.cursecdn.com/feheroes_gamepedia_en/d/db/Battle_5.flac';
+const walkEffect = new Audio();
+walkEffect.src = 'https://gamepedia.cursecdn.com/feheroes_gamepedia_en/e/e5/Se_fs_normal_sand_3.flac';
 
 let animationId;
 let introId;
@@ -34,6 +56,7 @@ let playerWaiting;
 let attacker;
 let defender;
 let winner;
+let walker;
 
 function ellipse(context, cx, cy, rx, ry) {
   context.fillStyle = '#404040';
@@ -68,6 +91,8 @@ function endMatch() {
   finalScreen.children[0].className = winner === 'Player 1' ? 'fs-bg-red' : 'fs-bg-blue';
   finalScreen.style.display = '';
   finalScreen.children[0].children[1].innerHTML = winner;
+  battleMusic.pause();
+  winningMusic.play();
 }
 
 function gameLoop() {
@@ -78,6 +103,7 @@ function gameLoop() {
     attacker.getCharacterCoordinates().y === attacker.getGoalCoordinates().y
   ) {
     animationId = undefined;
+    attackEffect.play();
     showInformation(playerOne, 'infoP1', attacker);
     showInformation(playerTwo, 'infoP2', attacker);
     showInformation(playerOne, 'infoP1', defender, false);
@@ -88,7 +114,6 @@ function gameLoop() {
   }
   if (playerOne.units.length === 0) {
     winner = 'Player 2';
-    console.log(winner);
     setTimeout(endMatch, 300);
     stop();
     return;
@@ -97,6 +122,22 @@ function gameLoop() {
     setTimeout(endMatch, 300);
     stop();
     return;
+  }
+  if (
+    playerPlaying.movementsLeft === 0 &&
+    walker.getCharacterCoordinates().x === walker.getGoalCoordinates().x &&
+    walker.getCharacterCoordinates().y === walker.getGoalCoordinates().y
+  ) {
+    if (playerPlaying === playerOne) {
+      playerTwo.movementsLeft = 2;
+      playerPlaying = playerTwo;
+      playerWaiting = playerOne;
+    } else {
+      playerOne.movementsLeft = 2;
+      playerPlaying = playerOne;
+      playerWaiting = playerTwo;
+    }
+    changeTurn();
   }
   showInformation(playerOne, 'infoP1');
   showInformation(playerTwo, 'infoP2');
@@ -127,21 +168,8 @@ const controlUnits = e => {
     if (attacker) {
       if (e.target.className.includes('highlight')) {
         attacker.currentAnimation.setGoal(getTileCoordinates(e.target));
+        walker = attacker;
         playerPlaying.movementsLeft--;
-        setTimeout(() => {
-          if (playerPlaying.movementsLeft === 0) {
-            if (playerPlaying === playerOne) {
-              playerTwo.movementsLeft = 2;
-              playerPlaying = playerTwo;
-              playerWaiting = playerOne;
-            } else {
-              playerOne.movementsLeft = 2;
-              playerPlaying = playerOne;
-              playerWaiting = playerTwo;
-            }
-            changeTurn();
-          }
-        }, 1500);
       } else if (e.target.className.includes('combat-ready')) {
         gameState = false;
         defender = playerWaiting.getUnitByTile(e.target);
@@ -150,6 +178,22 @@ const controlUnits = e => {
           tile.className = '';
         });
         playerPlaying.movementsLeft--;
+        const destination = defender.getCharacterCoordinates();
+        if (attacker.getCharacterCoordinates().x === destination.x) {
+          if (attacker.getCharacterCoordinates().y < destination.y) {
+            destination.y--;
+          } else {
+            destination.y++;
+          }
+        } else {
+          if (attacker.getCharacterCoordinates().x < destination.x) {
+            destination.x--;
+          } else {
+            destination.x++;
+          }
+        }
+        attacker.currentAnimation.setGoal(destination);
+        // setTimeout(() => attackEffect.play(), 1200);
         setTimeout(() => {
           gameState = true;
           attacker = undefined;
@@ -184,21 +228,6 @@ const controlUnits = e => {
 
 board.onclick = controlUnits;
 
-board.onmouseout = () => {
-  console.log(playerPlaying.movementsLeft);
-  // if (playerPlaying.movementsLeft === 0) {
-  //   if (playerPlaying === playerOne) {
-  //     playerTwo.movementsLeft = 2;
-  //     playerPlaying = playerTwo;
-  //     playerWaiting = playerOne;
-  //   } else {
-  //     playerOne.movementsLeft = 2;
-  //     playerPlaying = playerOne;
-  //     playerWaiting = playerTwo;
-  //   }
-  // }
-};
-
 function requestIntro() {
   introId = undefined;
   playIntro();
@@ -219,6 +248,7 @@ function stopIntro() {
 }
 
 function changeTurn() {
+  turnEffect.play();
   turnCard.children[0].children[0].innerHTML = playerPlaying === playerOne ? 'Player 1' : 'Player 2';
   turnCard.children[0].className = playerPlaying === playerOne ? 'fs-bg-red' : 'fs-bg-blue';
   turnCard.style.display = '';
@@ -229,15 +259,16 @@ function changeTurn() {
 button.onclick = () => {
   homeScreen.style.display = 'none';
   document.querySelector('#selectionScreen').style.display = '';
-  // menuMusic.pause();
-  // menuMusic.src = 'http://23.237.126.42/ost/fire-emblem-heroes/gzjxtkxi/26%20Battle%20Player.mp3';
-  // menuMusic.play();
+  menuMusic.pause();
+  selectionMusic.play();
   startIntro();
+  selectionEffect.play();
 };
 
 selectionScreen.onmouseover = changeAnimationSelection;
 selectionScreen.onmouseout = clearAnimation;
 selectionScreen.onclick = e => {
+  selectionEffect.play();
   playersFactions = chooseFaction(e);
   if (playersFactions) {
     document.querySelector('#selectionScreen').style.display = 'none';
@@ -266,11 +297,12 @@ selectionScreen.onclick = e => {
     }
     playerPlaying = playerOne;
     playerWaiting = playerTwo;
-
+    selectionMusic.pause();
     changeTurn();
     showInformation(playerOne, 'infoP1');
     showInformation(playerTwo, 'infoP2');
     stopIntro();
+    battleMusic.play();
     start();
   }
 };
@@ -291,10 +323,15 @@ newGameButton.onclick = () => {
   defender = undefined;
   winner = undefined;
 
+  showInformation(playerOne, 'infoP1');
+  showInformation(playerTwo, 'infoP2');
+
+  selectionEffect.play();
   document.querySelector('#selectionScreen').className = 'p1';
   document.querySelector('#selectionScreen h3').innerHTML = 'P1';
-
+  selectionMusic.play();
   clearVariables();
+  winningMusic.pause();
   startIntro();
   document.querySelector('#selectionScreen').style.display = '';
 };
@@ -303,9 +340,9 @@ turnCard.onclick = () => {
   turnCard.style.display = 'none';
 };
 
-// document.body.onload = () => {
-//   menuMusic.play();
-// };
+document.body.onload = () => {
+  menuMusic.play();
+};
 
 board.onmouseover = e => {
   if (

@@ -1,10 +1,11 @@
 import { highlightPath, highlightCombat, getTileCoordinates } from './map.js';
 
 export default class Battalion {
-  constructor(units, name) {
+  constructor(units, name, quotes) {
     this.units = units;
     this.movementsLeft = 2;
     this.name = name;
+    this.quotes = quotes;
   }
 
   render() {

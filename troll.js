@@ -233,9 +233,9 @@ class Trolls extends Battalion {
 
     super(
       [
-        new GreenTroll(10, 10, 5, 5, context, positions[0]),
-        new GrayTroll(10, 10, 5, 5, context, positions[1]),
-        new RedTroll(10, 10, 5, 5, context, positions[2])
+        new GreenTroll('Stoick', 10, 5, 5, context, positions[0]),
+        new GrayTroll('Berk', 10, 5, 5, context, positions[1]),
+        new RedTroll('Hiccup', 10, 5, 5, context, positions[2])
       ],
       'trolls'
     );

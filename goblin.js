@@ -243,9 +243,9 @@ class Goblins extends Battalion {
 
     super(
       [
-        new GoblinOne(10, 10, 4, 2, context, positions[0]),
-        new GoblinTwo(10, 10, 4, 2, context, positions[1]),
-        new GoblinThree(10, 10, 4, 2, context, positions[2])
+        new GoblinOne('Klaaskaang', 10, 4, 2, context, positions[0]),
+        new GoblinTwo('Vokx', 10, 4, 2, context, positions[1]),
+        new GoblinThree('Gliakz', 10, 4, 2, context, positions[2])
       ],
       'goblins'
     );

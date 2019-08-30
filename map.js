@@ -50,7 +50,6 @@ function highlightPath({ x, y }, maxMovement, friendlyUnits) {
     }
     maxY--;
   }
-  console.log(fuCoordinates);
 
   highlightTiles
     .filter(tile => !fuCoordinates.includes(tile))
@@ -64,8 +63,6 @@ function highlightPath({ x, y }, maxMovement, friendlyUnits) {
 }
 
 function highlightCombat({ x, y }) {
-  console.log(x, y);
-
   try {
     if (
       document.querySelector(`[tile="${y - 1},${x}"]`).className.includes('highlight') ||
@@ -77,9 +74,10 @@ function highlightCombat({ x, y }) {
       document.querySelector(`[tile="${y},${x}"]`).className = 'combat-ready';
     }
   } catch (e) {
-    console.log('puto');
     return;
   }
 }
+
+function getAproximateLocation() {}
 
 export { drawMap, getTileCoordinates, highlightPath, highlightCombat };

@@ -17,6 +17,8 @@ export default class Character {
     this.sprites.hurt = new Sprite(spriteOptions.hurt);
     this.sprites.dead = new Sprite(spriteOptions.dead);
     this.currentAnimation = this.sprites.idle;
+    this.walkEffect = new Audio();
+    this.walkEffect.src = 'https://gamepedia.cursecdn.com/feheroes_gamepedia_en/e/e5/Se_fs_normal_sand_3.flac';
   }
 
   getCharacterCoordinates() {
@@ -40,6 +42,7 @@ export default class Character {
     ) {
       this.sprites.walk.position = this.currentAnimation.position;
       this.sprites.walk.goal = this.currentAnimation.goal;
+      this.walkEffect.play();
       return (this.currentAnimation = this.sprites.walk);
     }
     this.sprites.walk.position = this.currentAnimation.position;

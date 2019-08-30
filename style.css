@@ -14,6 +14,12 @@ body {
   font-family: 'Montserrat', sans-serif;
   font-size: 22px;
   position: relative;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /*Home Screen*/
@@ -198,7 +204,7 @@ aside h3 {
   width: 55%;
 }
 
-.infoCurrent > h2:first-child {
+.infoCurrent > h2 {
   font-size: 22px;
 }
 
@@ -377,4 +383,101 @@ div[tile='4,0'] {
 .combat-ready {
   background-color: rgba(255, 36, 0, 0.6);
   border: 1px solid rgba(255, 36, 0, 0.8);
+}
+
+/*Quotes*/
+.quotes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  justify-content: space-between;
+  color: #ddd;
+}
+
+.quotes > div {
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+  padding: 30px 40px;
+}
+
+.quotes > div:first-child {
+  align-self: flex-end;
+}
+
+.quotes > div:last-child {
+  align-self: flex-start;
+}
+
+.quotes > div > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.quotes > div:first-child > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.quotes > div > div > h3 {
+  margin: 0;
+  padding: 0;
+}
+
+.quotes > div > div > div {
+  position: relative;
+  font-size: 28px;
+  width: 500px;
+  padding: 25px;
+  margin: 20px 0 60px;
+  border-radius: 5px;
+}
+
+.quotes > div > div > div:after {
+  content: '';
+  position: absolute;
+  bottom: -25px;
+  border-width: 25px 25px 0;
+  border-style: solid;
+  display: block;
+  width: 0;
+}
+
+.quotes > div:first-child > div > div:after {
+  left: 80px;
+}
+
+.quotes > div:last-child > div > div:after {
+  right: 80px;
+}
+
+.quotes > div > div > img {
+  width: 320px;
+  height: auto;
+}
+
+#sp1 > div > div:after,
+#ep1 > div > div:after {
+  border-color: rgba(255, 36, 0, 0.8) transparent;
+}
+
+#sp2 > div > div:after,
+#ep2 > div > div:after {
+  border-color: rgba(115, 194, 251, 0.9) transparent;
+}
+
+#sp2 > div > div,
+#ep2 > div > div {
+  background-color: rgba(115, 194, 251, 0.9);
+}
+
+#sp1 > div > div,
+#ep1 > div > div {
+  background-color: rgba(255, 36, 0, 0.8);
 }

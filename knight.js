@@ -219,11 +219,16 @@ class Knights extends Battalion {
 
     super(
       [
-        new KnightOne(10, 5, 10, 10, context, positions[0]),
-        new KnightTwo(10, 5, 10, 10, context, positions[1]),
-        new KnightThree(10, 5, 10, 10, context, positions[2])
+        new KnightOne('Black Knight', 5, 10, 10, context, positions[0]),
+        new KnightTwo('Sir Robin', 5, 10, 10, context, positions[1]),
+        new KnightThree('Patsy', 5, 10, 10, context, positions[2])
       ],
-      'knights'
+      'knights',
+      [
+        `Running away? You yellow bastard! Come back and get what's coming to you! I'll bite your legs off!`,
+        `Deus Vult!!!`
+      ],
+      ['Tis but a scratch', `Your motha was a hamster and your fatha smelled of hoozenberries!!!`]
     );
   }
 }
